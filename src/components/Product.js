@@ -2,11 +2,30 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { StarIcon } from "@heroicons/react/24/solid";
 import Currency from "react-currency-formatter";
+import { useDispatch } from "react-redux";
+import { addToBasket } from "../slices/basketSlice";
+
 const MAX_RATING = 5;
 const MIN_RATING = 1;
 function Product({ id, title, price, description, category, image }) {
   const [rating, setRating] = useState(1);
   const [hasPrime, setHasPrime] = useState(true);
+  const dispatch = useDispatch();
+
+  const addItemToBasket = () => {
+    const product = {
+      id,
+      title,
+      price,
+      description,
+      category,
+      image,
+      rating,
+      hasPrime,
+    };
+    //Sending the product as an actoin to the redux store
+    dispatch(addToBasket(product))
+  };
 
   useEffect(() => {
     setRating(
@@ -15,18 +34,22 @@ function Product({ id, title, price, description, category, image }) {
     setHasPrime(Math.random() < 0.5);
   }, []);
   return (
-    <div className="relative flex
-     flex-col m-5 bg-white z-30  p-10 ">
-      <p className="  absolute right-2 top-2  text-xs italic text-gray-400">{category}</p>
-      
-      <Image 
+    <div
+      className="relative flex
+     flex-col m-5 bg-white z-30  p-10 "
+    >
+      <p className="  absolute right-2 top-2  text-xs italic text-gray-400">
+        {category}
+      </p>
+
+      <Image
         src={image}
         height={200}
         width={200}
         style={{ objectFit: "contain" }}
         className="mx-auto"
       />
-      <h4 className="my-3">{title }</h4>
+      <h4 className="my-3">{title}</h4>
       <div className="flex">
         {Array(rating)
           .fill()
@@ -45,7 +68,9 @@ function Product({ id, title, price, description, category, image }) {
           <p className="text-xs text-gray-500 ">Free Soombook delivery</p>
         </div>
       )}
-      <button className="mt-auto button">Add to Basket</button>
+      <button onClick={addItemToBasket} className="mt-auto button">
+        Add to Basket
+      </button>
     </div>
   );
 }
