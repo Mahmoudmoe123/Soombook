@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { StarIcon } from "@heroicons/react/24/solid";
-import Currency from "react-currency-formatter";
+import numeral from "numeral";
 import { useDispatch } from "react-redux";
 import { addToBasket } from "../slices/basketSlice";
 
@@ -24,7 +24,7 @@ function Product({ id, title, price, description, category, image }) {
       hasPrime,
     };
     //Sending the product as an actoin to the redux store
-    dispatch(addToBasket(product))
+    dispatch(addToBasket(product));
   };
 
   useEffect(() => {
@@ -58,9 +58,7 @@ function Product({ id, title, price, description, category, image }) {
           ))}
       </div>
       <p className="text-xs my-2 line-clamp-2">{description}</p>
-      <div className="mb-5">
-        <Currency quantity={price} currency="USD" />
-      </div>
+      <div className="mb-5">{numeral(price).format("0,0.00")} SDG</div>
 
       {hasPrime && (
         <div className=" flex items-center space-x-2 -mt-2">

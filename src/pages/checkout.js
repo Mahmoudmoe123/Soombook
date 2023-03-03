@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import CheckoutProduct from "../components/CheckoutProduct";
 import Header from "../components/Header";
 import { selectItems, selectTotal } from "../slices/basketSlice";
-import Currency from "react-currency-formatter";
+import numeral from "numeral";
 import { useSession } from "next-auth/react";
 
 function Checkout() {
@@ -55,7 +55,7 @@ function Checkout() {
               <h2 className="whitespace-nowrap">
                 Subtotal ({items.length} items):{" "}
                 <span className="font-bold">
-                  <Currency quantity={total} currency="SDG" />
+                  {numeral(total).format("$0,0.00")} SDG
                 </span>{" "}
               </h2>
               <button
