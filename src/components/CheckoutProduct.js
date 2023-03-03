@@ -1,8 +1,9 @@
 import { StarIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
-import Currency from "react-currency-formatter";
 import { useDispatch } from "react-redux";
 import { addToBasket, removeFromBasket } from "../slices/basketSlice";
+import numeral from 'numeral';
+
 
 function CheckoutProduct({
   id,
@@ -56,7 +57,7 @@ function CheckoutProduct({
             ))}
         </div>
         <p className="text-xs my-2 line-clamp-3">{description}</p>
-                <div className="my-3">  <Currency quantity={price} currency="SDG" /></div>
+                <div className="my-3">  {numeral(price).format('0,0.00')} SDG</div>
       
 
         {hasPrime && (
