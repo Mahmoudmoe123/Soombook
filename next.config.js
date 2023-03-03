@@ -7,4 +7,7 @@ module.exports = {
       "www.pentalic.com",
     ],
   },
+  experimental: {
+    appDir: true,
+  },
 };
