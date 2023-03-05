@@ -66,8 +66,12 @@ function Header() {
           <Bars3Icon className="h-6 mr-1" />
           All
         </p>
-        <p className="link">Prime Video</p>
-        <p className="link">Soombook Business</p>
+        <p onClick={() => router.push("travel")} className="link">
+          Travel
+        </p>
+        <p onClick={() => router.push("order")} className="link">
+          Order
+        </p>
 
         <p className="link">Today's Deals</p>
         <p className="link hidden lg:inline-flex">Electronics</p>

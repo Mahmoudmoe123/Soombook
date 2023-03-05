@@ -9,6 +9,7 @@
   "dependencies": {
     "@heroicons/react": "^2.0.16",
     "@reduxjs/toolkit": "1.9.3",
+    "@stripe/stripe-js": "^1.48.0",
     "@tailwindcss/line-clamp": "^0.4.2",
     "firebase": "^9.17.1",
     "firebase-admin": "^11.5.0",
@@ -16,9 +17,11 @@
     "next-auth": "^4.20.0",
     "numeral": "^2.0.6",
     "react": "^18.2.0",
+    "react-datepicker": "^4.10.0",
     "react-dom": "^18.2.0",
     "react-redux": "8.0.5",
-    "react-responsive-carousel": "^3.2.23"
+    "react-responsive-carousel": "^3.2.23",
+    "stripe": "^11.13.0"
   },
   "license": "MIT",
   "devDependencies": {
