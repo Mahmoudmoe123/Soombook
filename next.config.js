@@ -5,6 +5,7 @@ module.exports = {
       "fakestoreapi.com",
       "upload.wikimedia.org",
       "www.pentalic.com",
+      "https://is2-ssl.mzstatic.com/",
     ],
   },
   experimental: {

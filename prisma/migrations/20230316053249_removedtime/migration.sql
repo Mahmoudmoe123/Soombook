@@ -1,0 +1,11 @@
+-- AlterTable
+ALTER TABLE "Product" ALTER COLUMN "createdAt" SET DATA TYPE DATE,
+ALTER COLUMN "updatedAt" SET DATA TYPE DATE;
+
+-- AlterTable
+ALTER TABLE "Purchase" ALTER COLUMN "createdAt" SET DATA TYPE DATE,
+ALTER COLUMN "updatedAt" SET DATA TYPE DATE;
+
+-- AlterTable
+ALTER TABLE "Trip" ALTER COLUMN "departureDate" SET DATA TYPE DATE,
+ALTER COLUMN "arrivalDate" SET DATA TYPE DATE;
