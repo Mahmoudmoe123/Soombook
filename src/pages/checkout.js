@@ -5,11 +5,15 @@ import Header from "../components/Header";
 import { selectItems, selectTotal } from "../slices/basketSlice";
 import numeral from "numeral";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+
 
 function Checkout() {
   const items = useSelector(selectItems);
   const total = useSelector(selectTotal);
   const { data: session, status } = useSession();
+  const router = useRouter();
+
 
   return (
     <div className="bg-gray-100">
@@ -58,12 +62,12 @@ function Checkout() {
                   {numeral(total).format("$0,0.00")} SDG
                 </span>{" "}
               </h2>
-              <button
-                disabled={!session}
+              <button  onClick={() => router.push("/payment")}
+                disabled={!session} 
                 className={`button mt-2 ${
                   !session &&
                   "from-gray-300 to-gray-500 border-gray-200 text-gray-300 cursor-not-allowed"
-                }`}
+                }` }
               >
                 {!session ? "Sign in to checkout" : "Proceed to checkout"}
               </button>

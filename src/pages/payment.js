@@ -94,7 +94,7 @@ function PaymentForm() {
 
       <div>
         <div>
-          <h2>Payment Methods</h2>
+          <h2>Payment Methods On File:</h2>
           <table>
             <thead>
               <tr>
