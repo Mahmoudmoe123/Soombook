@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
 import { useSession } from "next-auth/react";
-
+import axios from "axios";
 
 function ProductForm() {
   const [url, setUrl] = useState("");
@@ -14,12 +14,19 @@ function ProductForm() {
     console.log(`Submitted URL: ${url}`);
     console.log(`Submitted Origin: ${origin}`);
     console.log(`Submitted Destination: ${destination}`);
+    addProduct();
+  };
+
+  const addProduct = () => {
+    const data = { url, origin, destination };
+    axios.post("/api/ordersapi", data);
   };
 
   useEffect(() => {
     async function fetchCountries() {
       try {
         const response = await fetch("https://restcountries.com/v2/all");
+
         const data = await response.json();
         const countryList = data.map((country) => ({
           code: country.alpha2Code,
@@ -105,7 +112,7 @@ function ProductForm() {
             type="submit"
             className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline"
           >
-            Submit
+            Submit Order
           </button>
         </div>
       </form>

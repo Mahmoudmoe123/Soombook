@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Trip" ALTER COLUMN "departureDate" SET DATA TYPE TEXT,
+ALTER COLUMN "arrivalDate" SET DATA TYPE TEXT;
