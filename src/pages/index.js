@@ -1,8 +1,9 @@
 import Head from "next/head";
 import Banner from "../components/Banner";
 import Header from "../components/Header";
-import { PrismaClient } from '@prisma/client'
+// import { PrismaClient } from '@prisma/client'
 import Supaproductfeed from "../components/Supaproductfeed";
+import prisma from "../lib/prisma";
 
 
 export default function Home({ orders }) {
@@ -32,7 +33,6 @@ export default function Home({ orders }) {
 
 
 export async function getServerSideProps() {
-    const prisma = new PrismaClient()
     const orders = await prisma.order.findMany()
   
     return {
