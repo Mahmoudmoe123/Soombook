@@ -30,8 +30,8 @@ function TravelForm() {
     const data = {
       origin,
       destination,
-      formatedDepartureDate,
-      formatedArrivalDate,
+      departureDate,
+      arrivalDate,
     };
 
     axios.post("/api/tripsapi", data);

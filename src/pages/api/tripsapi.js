@@ -6,16 +6,16 @@ export default async function handler(req, res) {
       const {
         origin,
         destination,
-        formatedDepartureDate,
-        formatedArrivalDate,
+        departureDate,
+        arrivalDate,
       } = req.body;
 
       const trip = await prisma.trip.create({
         data: {
           originCountry: origin,
           destinationCountry: destination,
-          departureDate: formatedDepartureDate,
-          arrivalDate: formatedArrivalDate,
+          departureDate: departureDate,
+          arrivalDate: arrivalDate,
         },
       });
 

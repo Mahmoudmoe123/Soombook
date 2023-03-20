@@ -8,17 +8,30 @@ function ProductForm() {
   const [origin, setOrigin] = useState("");
   const [destination, setDestination] = useState("");
   const [countries, setCountries] = useState([]);
+  const [category, setCategory] = useState("");
+  const [description, setDescription] = useState("");
+  const [title, setTitle] = useState("");
+  const [price, setPrice] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(`Submitted URL: ${url}`);
     console.log(`Submitted Origin: ${origin}`);
     console.log(`Submitted Destination: ${destination}`);
-    addProduct();
+    const priceAsInt = parseInt(price);
+    addProduct(priceAsInt);
   };
 
-  const addProduct = () => {
-    const data = { url, origin, destination };
+  const addProduct = (intPrice) => {
+    const data = {
+      url,
+      origin,
+      destination,
+      category,
+      description,
+      title,
+      price: intPrice,
+    };
     axios.post("/api/ordersapi", data);
   };
 
@@ -107,6 +120,93 @@ function ProductForm() {
             ))}
           </select>
         </div>
+
+        <div className="mb-4">
+          <label
+            htmlFor="category"
+            className="block font-medium text-gray-700 mb-2"
+          >
+            Category
+          </label>
+          <select
+            id="category"
+            className="w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            required
+          >
+            <option value="">Select a category</option>
+            <option value="clothing">Clothing</option>
+            <option value="beauty">Beauty and personal care</option>
+
+            <option value="clothing">Electronics</option>
+            <option value="beauty">Home and garden</option>
+
+            <option value="clothing">Clothing</option>
+            <option value="beauty">Sports and outdoors</option>
+
+            <option value="clothing">Toys and games</option>
+            <option value="beauty">Beauty</option>
+
+            <option value="clothing">Health and wellness</option>
+            <option value="beauty">Automotive</option>
+            {/* Add more options for other categories */}
+          </select>
+        </div>
+
+        <div className="mb-4">
+          <label
+            htmlFor="description"
+            className="block font-medium text-gray-700 mb-2"
+          >
+            Description
+          </label>
+          <textarea
+            id="description"
+            className="w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            placeholder="Enter product description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            required
+          />
+        </div>
+
+        <div className="mb-4">
+          <label
+            htmlFor="title"
+            className="block font-medium text-gray-700 mb-2"
+          >
+            Title
+          </label>
+          <input
+            type="text"
+            id="title"
+            className="w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            placeholder="Enter product title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+          />
+        </div>
+
+        <div className="mb-4">
+          <label
+            htmlFor="price"
+            className="block font-medium text-gray-700 mb-2"
+          >
+            Price
+          </label>
+          <input
+            type="number"
+            id="price"
+            className="w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            placeholder="Enter product price"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+            required
+          />
+        </div>
+
         <div className="mt-8">
           <button
             type="submit"

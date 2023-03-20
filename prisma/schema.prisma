@@ -46,15 +46,20 @@ model Trip {
   id                 Int    @id @default(autoincrement())
   originCountry      String
   destinationCountry String
-  departureDate      String
-  arrivalDate        String
+  departureDate      DateTime?
+  arrivalDate        DateTime?
 }
 
 model Order {
   id                 Int    @id @default(autoincrement())
+  title   String @default("Sample product")
   productUrl         String
   originCountry      String
   destinationCountry String
+  price Int @default(0)
+  description String?
+  category String ?
+  
 }
 
 model Paymentmethod {
