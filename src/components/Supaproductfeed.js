@@ -3,7 +3,7 @@ import Supaproduct from "./Supaproduct";
 
 function Supaproductfeed({ products }) {
   return (
-    <div className="grid grid-flow-row-dense md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:-mt-52 mx-auto">
+    <div className="grid grid-flow-row-dense  sm: grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:-mt-52 mx-auto">
       {products
         .slice(0, 4)
         .map(
