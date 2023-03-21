@@ -50,7 +50,7 @@ function Product({
       <p className="  absolute right-2 top-2  text-xs italic text-gray-400">
         {category}
       </p>
-      <p className="text-xs line-clamp-2">{url}</p> <h4 className="my-3">{title}</h4>
+      <p className="text-xs line-clamp-1">{url}</p> <h4 className="my-3">{title}</h4>
       <div>
         <p>{origin}</p>
         <p>{destination}</p>
