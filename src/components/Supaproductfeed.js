@@ -16,6 +16,8 @@ function Supaproductfeed({ products }) {
             productUrl,
             originCountry,
             destinationCountry,
+            userId
+
           }) => (
             <Supaproduct
               key={id}
@@ -27,6 +29,7 @@ function Supaproductfeed({ products }) {
               url={productUrl}
               origin={originCountry}
               destination={destinationCountry}
+              userId={userId}
             />
           )
         )}
@@ -48,6 +51,7 @@ function Supaproductfeed({ products }) {
               productUrl,
               originCountry,
               destinationCountry,
+              userId
             }) => (
               <Supaproduct
                 key={id}
@@ -59,6 +63,7 @@ function Supaproductfeed({ products }) {
                 url={productUrl}
                 origin={originCountry}
                 destination={destinationCountry}
+                userId={userId}
               />
             )
           )}
@@ -76,6 +81,7 @@ function Supaproductfeed({ products }) {
               productUrl,
               originCountry,
               destinationCountry,
+              userId
             }) => (
               <Supaproduct
                 key={id}
@@ -87,6 +93,7 @@ function Supaproductfeed({ products }) {
                 url={productUrl}
                 origin={originCountry}
                 destination={destinationCountry}
+                userId={userId}
               />
             )
         )}

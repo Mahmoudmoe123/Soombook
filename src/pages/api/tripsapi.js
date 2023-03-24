@@ -8,7 +8,14 @@ export default async function handler(req, res) {
         destination,
         departureDate,
         arrivalDate,
+        currentUserEmail,
       } = req.body;
+
+      const user = await prisma.user.findUnique({
+        where: {
+          email: currentUserEmail,
+        },
+      });
 
       const trip = await prisma.trip.create({
         data: {
@@ -16,6 +23,7 @@ export default async function handler(req, res) {
           destinationCountry: destination,
           departureDate: departureDate,
           arrivalDate: arrivalDate,
+          userId: user.id,
         },
       });
 

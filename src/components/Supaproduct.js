@@ -16,10 +16,16 @@ function Product({
   category,
   origin,
   destination,
+  userId
 }) {
   //   const [rating, setRating] = useState(1);
   //   const [hasPrime, setHasPrime] = useState(true);
   const dispatch = useDispatch();
+
+
+
+
+  
 
   const addItemToBasket = () => {
     const product = {
@@ -31,6 +37,7 @@ function Product({
       url,
       origin,
       destination,
+      userId
     };
     //Sending the product as an actoin to the redux store
     dispatch(addToBasket(product));
@@ -63,6 +70,8 @@ function Product({
           <p className="text-xs text-gray-500 ">Free Soombook delivery</p>
         </div>
       )} */}
+
+      
       <button onClick={addItemToBasket} className="mt-auto button">
         Add to Basket
       </button>

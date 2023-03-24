@@ -3,8 +3,22 @@ import prisma from "../../lib/prisma";
 export default async function handler(req, res) {
   if (req.method === "POST") {
     try {
-      const { url, origin, destination, category, description, title, price } =
-        req.body;
+      const {
+        url,
+        origin,
+        destination,
+        category,
+        description,
+        title,
+        price,
+        currentUserEmail,
+      } = req.body;
+
+      const user = await prisma.user.findUnique({
+        where: {
+          email: currentUserEmail,
+        },
+      });
 
       const order = await prisma.order.create({
         data: {
@@ -16,6 +30,7 @@ export default async function handler(req, res) {
           description: description,
 
           category: category,
+          userId: user.id,
         },
       });
 
