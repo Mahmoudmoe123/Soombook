@@ -38,10 +38,21 @@ function Header() {
         </div>
 
         <div className="text-white flex items-center text-xs space-x-6 mx-6 whitespace-nowrap">
-          <div onClick={!session ? signIn : signOut} className=" link">
+          <div onClick={!session ? signIn : undefined} className="link">
             <p>{session ? `Hello ${session.user.name}` : "Sign-In"}</p>
             <p className="font-extrabold md:text-sm">Accounts & Lists</p>
           </div>
+
+          {session && (
+            <div
+              onClick={signOut}
+              className="link items-center"
+            >
+              <p>Sign</p>
+              <p className="font-extrabold md:text-sm">Out</p>
+            </div>
+          )}
+
           <div className="link">
             <p>Returns</p>
             <p className="font-extrabold md:text-sm">& Orders</p>

@@ -7,39 +7,44 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+
+
 model User {
-  id        Int        @id @default(autoincrement())
-  name      String
-  email     String     @unique
-  createdAt DateTime?  @default(now())
-  updatedAt DateTime?  @updatedAt
-  products  Product[]
-  purchases Purchase[]
+  id             Int             @id @default(autoincrement())
+  name           String
+  email          String          @unique
+  createdAt      DateTime?       @default(now())
+  updatedAt      DateTime?       @updatedAt
+  // products  Product[]
+  orders         Order[]
+  paymentmethods Paymentmethod[]
+  trips          Trip[]
+  sales Sale[]
 }
 
-model Product {
-  id          Int        @id @default(autoincrement())
-  name        String
-  description String
-  price       Float
-  createdAt   DateTime   @default(now()) @db.Date
-  updatedAt   DateTime?  @updatedAt @db.Date
-  userId      Int
-  image       String?
-  user        User       @relation(fields: [userId], references: [id])
-  purchases   Purchase[]
-}
+// model Product {
+//   id          Int        @id @default(autoincrement())
+//   name        String
+//   description String
+//   price       Float
+//   createdAt   DateTime   @default(now()) @db.Date
+//   updatedAt   DateTime?  @updatedAt @db.Date
+//   userId      Int
+//   image       String?
+//   user        User       @relation(fields: [userId], references: [id])
+//   purchases   Purchase[]
+// }
 
-model Purchase {
-  id        Int       @id @default(autoincrement())
-  createdAt DateTime  @default(now()) @db.Date
-  updatedAt DateTime? @updatedAt @db.Date
-  userId    Int
-  productId Int
-  quantity  Int
-  product   Product   @relation(fields: [productId], references: [id])
-  user      User      @relation(fields: [userId], references: [id])
-}
+// model Purchase {
+//   id        Int       @id @default(autoincrement())
+//   createdAt DateTime  @default(now()) @db.Date
+//   updatedAt DateTime? @updatedAt @db.Date
+//   userId    Int
+//   productId Int
+//   quantity  Int
+//   product   Product   @ren lation(fields: [productId], references: [id])
+//   user      User      @relation(fields: [userId], references: [id])
+// }
 
 model Trip {
   id                 Int       @id @default(autoincrement())
@@ -47,6 +52,9 @@ model Trip {
   destinationCountry String
   departureDate      DateTime?
   arrivalDate        DateTime?
+  user               User      @relation(fields: [userId], references: [id])
+
+  userId Int
 }
 
 model Order {
@@ -58,7 +66,31 @@ model Order {
   price              Int     @default(0)
   description        String?
   category           String?
+  User               User   @relation(fields: [userId], references: [id])
+  userId             Int
 }
+
+
+model Sale{
+
+ id                 Int     @id @default(autoincrement())
+  title              String  @default("Sample product")
+  productUrl         String
+  originCountry      String
+  destinationCountry String
+  price              Int     @default(0)
+  description        String?
+  category           String?
+  User               User   @relation(fields: [userId], references: [id])
+  userId             Int
+
+
+
+}
+
+
+
+
 
 model Paymentmethod {
   id            Int    @id @default(autoincrement())
@@ -66,10 +98,8 @@ model Paymentmethod {
   lastName      String
   accountNumber Int
   cardNumber    Int
+  User          User  @relation(fields: [userId], references: [id])
+  userId        Int
 }
 
-model Testuser {
-  id    Int    @id @default(autoincrement())
-  name  String
-  email String @unique
-}
+

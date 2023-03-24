@@ -12,6 +12,8 @@ function TravelForm() {
   const [departureDate, setDepartureDate] = useState(new Date());
   const [arrivalDate, setArrivalDate] = useState(new Date());
   const [countries, setCountries] = useState([]);
+  const { data: session, status } = useSession();
+
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -32,6 +34,8 @@ function TravelForm() {
       destination,
       departureDate,
       arrivalDate,
+      currentUserEmail: session.user.email,
+
     };
 
     axios.post("/api/tripsapi", data);

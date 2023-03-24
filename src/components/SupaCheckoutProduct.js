@@ -14,6 +14,7 @@ function SupaCheckoutProduct({
   category,
   origin,
   destination,
+  userId,
 }) {
   const dispatch = useDispatch();
 
@@ -28,6 +29,7 @@ function SupaCheckoutProduct({
       category,
       origin,
       destination,
+      userId
     };
 
     // push into redux

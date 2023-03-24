@@ -12,6 +12,7 @@ function ProductForm() {
   const [description, setDescription] = useState("");
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
+  const { data: session, status } = useSession();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -31,6 +32,7 @@ function ProductForm() {
       description,
       title,
       price: intPrice,
+      currentUserEmail: session.user.email,
     };
     axios.post("/api/ordersapi", data);
   };
