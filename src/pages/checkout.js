@@ -13,13 +13,6 @@ function Checkout() {
   const { data: session, status } = useSession();
   const router = useRouter();
 
-
-
-
-
-
-
-
   return (
     <div className="bg-gray-100">
       <Header />
@@ -68,7 +61,7 @@ function Checkout() {
                 </span>{" "}
               </h2>
               <button
-                onClick={}
+                onClick={() => router.push("/payment")}
                 disabled={!session}
                 className={`button mt-2 ${
                   !session &&
