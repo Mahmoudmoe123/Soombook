@@ -1,9 +1,11 @@
 import prisma from "../../lib/prisma";
+import supabase from "../../lib/supabase";
 
 export default async function handler(req, res) {
   if (req.method === "POST") {
     try {
       const {
+        // image,
         url,
         origin,
         destination,
@@ -12,8 +14,16 @@ export default async function handler(req, res) {
         title,
         price,
         currentUserEmail,
+        imageUrl,
       } = req.body;
 
+      //   console.log(req.body);
+
+      //  const {data , error} = await supabase.storage
+
+      //   const imageUrl = data.Key;
+
+      // console.log("The image is" + image);
       const user = await prisma.user.findUnique({
         where: {
           email: currentUserEmail,
@@ -31,6 +41,7 @@ export default async function handler(req, res) {
 
           category: category,
           userId: user.id,
+          imageUrl: imageUrl,
         },
       });
 

@@ -16,16 +16,12 @@ function Product({
   category,
   origin,
   destination,
-  userId
+  userId,
+  imageUrl,
 }) {
   //   const [rating, setRating] = useState(1);
   //   const [hasPrime, setHasPrime] = useState(true);
   const dispatch = useDispatch();
-
-
-
-
-  
 
   const addItemToBasket = () => {
     const product = {
@@ -37,7 +33,8 @@ function Product({
       url,
       origin,
       destination,
-      userId
+      userId,
+      imageUrl,
     };
     //Sending the product as an actoin to the redux store
     dispatch(addToBasket(product));
@@ -57,7 +54,16 @@ function Product({
       <p className="  absolute right-2 top-2  text-xs italic text-gray-400">
         {category}
       </p>
-      <p className="text-xs line-clamp-1">{url}</p> <h4 className="my-3">{title}</h4>
+      
+      <Image
+        src={imageUrl}
+        height={150}
+        width={200}
+        style={{ objectFit: "contain" }}
+        className="mx-auto"
+      />
+      <p className="text-xs line-clamp-1">{url}</p>{" "}
+      <h4 className="my-3">{title}</h4>
       <div>
         <p>{origin}</p>
         <p>{destination}</p>
@@ -70,8 +76,6 @@ function Product({
           <p className="text-xs text-gray-500 ">Free Soombook delivery</p>
         </div>
       )} */}
-
-      
       <button onClick={addItemToBasket} className="mt-auto button">
         Add to Basket
       </button>

@@ -2,7 +2,10 @@ import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
 import { useSession } from "next-auth/react";
 import axios from "axios";
+import { v4 as uuidv4 } from "uuid";
 
+import { supabase } from "../lib/supabase";
+import { stringify } from "postcss";
 function ProductForm() {
   const [url, setUrl] = useState("");
   const [origin, setOrigin] = useState("");
@@ -13,17 +16,46 @@ function ProductForm() {
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
   const { data: session, status } = useSession();
+  const [image, setImage] = useState(null);
+  const [imageUrl, setImageUrl] = useState(null);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     console.log(`Submitted URL: ${url}`);
     console.log(`Submitted Origin: ${origin}`);
     console.log(`Submitted Destination: ${destination}`);
     const priceAsInt = parseInt(price);
-    addProduct(priceAsInt);
+
+    const uploadedImageUrl = await uploadImage();
+
+    addProduct(priceAsInt, uploadedImageUrl);
   };
 
-  const addProduct = (intPrice) => {
+  const uploadImage = async () => {
+    const imageLocation = session.user.email + "/" + uuidv4();
+    const { data, error } = await supabase.storage
+      .from("images")
+      .upload(imageLocation, image);
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    const pulicImageUrl = await supabase.storage
+      .from("images")
+      .getPublicUrl(imageLocation);
+
+    setImageUrl(JSON.stringify(pulicImageUrl));
+
+    //stringyfy the url
+
+    const stringifiedUrl = JSON.stringify(pulicImageUrl.data.publicUrl);
+    const url = stringifiedUrl.replace(/"/g, "");
+    console.log("No quote url"+url);
+    return url;
+  };
+
+  const addProduct = (intPrice, imageUrl) => {
     const data = {
       url,
       origin,
@@ -33,6 +65,7 @@ function ProductForm() {
       title,
       price: intPrice,
       currentUserEmail: session.user.email,
+      imageUrl: imageUrl,
     };
     axios.post("/api/ordersapi", data);
   };
@@ -78,7 +111,25 @@ function ProductForm() {
             required
           />
         </div>
+
         <div className="mb-4">
+          <label
+            htmlFor="image"
+            className="block font-medium text-gray-500 mb-1 text-lg px-2 py-1"
+          >
+            Upload Image
+          </label>
+          <input
+            type="file"
+            id="image"
+            // accept="image/*"
+            className="bg-white rounded-lg px-4 py-2 w-full shadow-sm border border-gray-300 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 focus:ring-opacity-50"
+            onChange={(e) => setImage(e.target.files[0])}
+            required
+          />
+        </div>
+
+        {/* <div className="mb-4">
           <label
             htmlFor="origin"
             className="block font-medium text-gray-700 mb-2"
@@ -121,7 +172,7 @@ function ProductForm() {
               </option>
             ))}
           </select>
-        </div>
+        </div> */}
 
         <div className="mb-4">
           <label
