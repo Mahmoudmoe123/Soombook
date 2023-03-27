@@ -16,8 +16,8 @@ function Supaproductfeed({ products }) {
             productUrl,
             originCountry,
             destinationCountry,
-            userId
-
+            userId,
+            imageUrl,
           }) => (
             <Supaproduct
               key={id}
@@ -30,6 +30,7 @@ function Supaproductfeed({ products }) {
               origin={originCountry}
               destination={destinationCountry}
               userId={userId}
+              imageUrl={imageUrl}
             />
           )
         )}
@@ -51,7 +52,8 @@ function Supaproductfeed({ products }) {
               productUrl,
               originCountry,
               destinationCountry,
-              userId
+              userId,
+              imageUrl,
             }) => (
               <Supaproduct
                 key={id}
@@ -64,6 +66,7 @@ function Supaproductfeed({ products }) {
                 origin={originCountry}
                 destination={destinationCountry}
                 userId={userId}
+                imageUrl={imageUrl}
               />
             )
           )}
@@ -72,30 +75,32 @@ function Supaproductfeed({ products }) {
       {products
         .slice(5, products.length)
         .map(
-            ({
-              id,
-              title,
-              price,
-              description,
-              category,
-              productUrl,
-              originCountry,
-              destinationCountry,
-              userId
-            }) => (
-              <Supaproduct
-                key={id}
-                id={id}
-                title={title}
-                price={price}
-                description={description}
-                category={category}
-                url={productUrl}
-                origin={originCountry}
-                destination={destinationCountry}
-                userId={userId}
-              />
-            )
+          ({
+            id,
+            title,
+            price,
+            description,
+            category,
+            productUrl,
+            originCountry,
+            destinationCountry,
+            userId,
+            imageUrl,
+          }) => (
+            <Supaproduct
+              key={id}
+              id={id}
+              title={title}
+              price={price}
+              description={description}
+              category={category}
+              url={productUrl}
+              origin={originCountry}
+              destination={destinationCountry}
+              userId={userId}
+              imageUrl={imageUrl}
+            />
+          )
         )}
     </div>
   );

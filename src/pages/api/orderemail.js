@@ -9,7 +9,7 @@ export default async function handler(req, res) {
       id: emailinfo.userId,
     },
   });
-  console.log("The users emails"+user.email);
+  console.log("The users emails" + user.email);
 
   const sgMail = require("@sendgrid/mail");
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
@@ -28,6 +28,9 @@ export default async function handler(req, res) {
     .catch((error) => {
       console.error(error);
     });
+
+  res.status(200).json(msg);
 }
 
 // }
+  
