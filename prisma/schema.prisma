@@ -13,36 +13,13 @@ model User {
   email          String          @unique
   createdAt      DateTime?       @default(now())
   updatedAt      DateTime?       @updatedAt
-  // products  Product[]
   orders         Order[]
   paymentmethods Paymentmethod[]
   trips          Trip[]
   sales          Sale[]
 }
 
-// model Product {
-//   id          Int        @id @default(autoincrement())
-//   name        String
-//   description String
-//   price       Float
-//   createdAt   DateTime   @default(now()) @db.Date
-//   updatedAt   DateTime?  @updatedAt @db.Date
-//   userId      Int
-//   image       String?
-//   user        User       @relation(fields: [userId], references: [id])
-//   purchases   Purchase[]
-// }
 
-// model Purchase {
-//   id        Int       @id @default(autoincrement())
-//   createdAt DateTime  @default(now()) @db.Date
-//   updatedAt DateTime? @updatedAt @db.Date
-//   userId    Int
-//   productId Int
-//   quantity  Int
-//   product   Product   @ren lation(fields: [productId], references: [id])
-//   user      User      @relation(fields: [userId], references: [id])
-// }
 
 model Trip {
   id                 Int       @id @default(autoincrement())
@@ -53,6 +30,7 @@ model Trip {
   user               User      @relation(fields: [userId], references: [id])
 
   userId Int
+  orders Order[]
 }
 
 model Order {
@@ -67,6 +45,9 @@ model Order {
   User               User    @relation(fields: [userId], references: [id])
   userId             Int
   imageUrl           String?
+  Trip               Trip?   @relation(fields: [tripId], references: [id])
+  tripId             Int?
+  arrivalDate        DateTime?
 }
 
 model Sale {
