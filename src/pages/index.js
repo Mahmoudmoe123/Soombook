@@ -5,7 +5,6 @@ import Header from "../components/Header";
 import Supaproductfeed from "../components/Supaproductfeed";
 import prisma from "../lib/prisma";
 
-
 export default function Home({ orders }) {
   return (
     <div className="bg-gray-100">
@@ -18,24 +17,23 @@ export default function Home({ orders }) {
       <Header />
       <main className="max-w-screen-2xl mx-auto">
         <Banner />
-        <Supaproductfeed products ={orders} />
-
-
-
-        
-
-
-
+        <Supaproductfeed products={orders} />
       </main>
     </div>
   );
 }
 
-
 export async function getServerSideProps() {
-    const orders = await prisma.order.findMany()
-  
-    return {
-      props : { orders }
-    }
-  }
+  const orders = await prisma.order.findMany();
+
+  // Modify each order to remove the arrivalDate property
+  const ordersWithoutArrivalDate = orders.map(
+    ({ arrivalDate, ...rest }) => rest
+  );
+
+  return {
+    props: {
+      orders: ordersWithoutArrivalDate,
+    },
+  };
+}

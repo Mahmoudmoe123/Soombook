@@ -3,8 +3,8 @@ import Header from "../components/Header";
 import { useSession } from "next-auth/react";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
+import supabase from "../lib/supabase";
 
-import { supabase } from "../lib/supabase";
 import { stringify } from "postcss";
 function ProductForm() {
   const [url, setUrl] = useState("");
@@ -51,7 +51,7 @@ function ProductForm() {
 
     const stringifiedUrl = JSON.stringify(pulicImageUrl.data.publicUrl);
     const url = stringifiedUrl.replace(/"/g, "");
-    console.log("No quote url"+url);
+    console.log("No quote url" + url);
     return url;
   };
 
