@@ -44,19 +44,26 @@ function Header() {
           </div>
 
           {session && (
-            <div
-              onClick={signOut}
-              className="link items-center"
-            >
+            <div onClick={signOut} className="link items-center">
               <p>Sign</p>
               <p className="font-extrabold md:text-sm">Out</p>
             </div>
           )}
 
-          <div className="link">
+          <div onClick={() => router.push("/userOrders")} className="link">
             <p>Returns</p>
             <p className="font-extrabold md:text-sm">& Orders</p>
           </div>
+
+          {session && (
+            <div
+              onClick={() => router.push("/userTripsPage")}
+              className="link items-center"
+            >
+              <p>Your</p>
+              <p className="font-extrabold md:text-sm">Trips</p>
+            </div>
+          )}
 
           {session && (
             <div
