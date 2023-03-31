@@ -17,7 +17,7 @@ function Header() {
   const items = useSelector(selectItems);
 
   return (
-    <header>
+    <header className="md:container md:mx-auto">
       <div className="flex items-center bg-amazon_blue p-1 flex-grow py-2">
         <div className="mt-2 flex items-center flex-grow sm:flex-grow-0">
           <Image
@@ -29,7 +29,7 @@ function Header() {
             className="cursor-pointer"
           />
         </div>
-        <div className="hidden sm:flex items-center h-10 rounded-md bg-yellow-400 hover:bg-yellow-500 flex-grow cursor-pointer">
+        <div className="hidden md:flex items-center h-10 rounded-md bg-yellow-400 hover:bg-yellow-500 flex-grow cursor-pointer">
           <input
             type="text"
             className="p-2 h-full w-6 flex-grow flex-shrink rounded-l-md focus:outline-none px-4 "
