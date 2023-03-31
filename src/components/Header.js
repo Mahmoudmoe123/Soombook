@@ -49,12 +49,12 @@ function Header() {
               <p className="font-extrabold md:text-sm">Out</p>
             </div>
           )}
-
-          <div onClick={() => router.push("/userOrders")} className="link">
-            <p>Returns</p>
-            <p className="font-extrabold md:text-sm">& Orders</p>
-          </div>
-
+          {session && (
+            <div onClick={() => router.push("/userOrders")} className="link">
+              <p>Returns</p>
+              <p className="font-extrabold md:text-sm">& Orders</p>
+            </div>
+          )}
           {session && (
             <div
               onClick={() => router.push("/userTripsPage")}
@@ -62,6 +62,15 @@ function Header() {
             >
               <p>Your</p>
               <p className="font-extrabold md:text-sm">Trips</p>
+            </div>
+          )}
+          {session && (
+            <div
+              onClick={() => router.push("/userDeliveriesPage")}
+              className="link items-center"
+            >
+              <p>Your</p>
+              <p className="font-extrabold md:text-sm">Deliveries</p>
             </div>
           )}
 
