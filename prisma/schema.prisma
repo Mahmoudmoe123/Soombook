@@ -16,10 +16,7 @@ model User {
   orders         Order[]
   paymentmethods Paymentmethod[]
   trips          Trip[]
-  sales          Sale[]
 }
-
-
 
 model Trip {
   id                 Int       @id @default(autoincrement())
@@ -34,34 +31,24 @@ model Trip {
 }
 
 model Order {
-  id                 Int     @id @default(autoincrement())
-  title              String  @default("Sample product")
+  id                 Int       @id @default(autoincrement())
+  title              String    @default("Sample product")
   productUrl         String
   originCountry      String?
   destinationCountry String?
-  price              Int     @default(0)
+  price              Int       @default(0)
   description        String?
   category           String?
-  User               User    @relation(fields: [userId], references: [id])
+  User               User      @relation(fields: [userId], references: [id])
   userId             Int
   imageUrl           String?
-  Trip               Trip?   @relation(fields: [tripId], references: [id])
+  Trip               Trip?     @relation(fields: [tripId], references: [id])
   tripId             Int?
   arrivalDate        DateTime?
+ 
 }
 
-model Sale {
-  id                 Int     @id @default(autoincrement())
-  title              String  @default("Sample product")
-  productUrl         String
-  originCountry      String
-  destinationCountry String
-  price              Int     @default(0)
-  description        String?
-  category           String?
-  User               User    @relation(fields: [userId], references: [id])
-  userId             Int
-}
+
 
 model Paymentmethod {
   id            Int    @id @default(autoincrement())
