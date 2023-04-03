@@ -12,7 +12,7 @@ import TravelForm from "../components/TravelForm";
 
 function Checkout() {
   const items = useSelector(selectItems);
-  const total = useSelector(selectTotal); 
+  const total = useSelector(selectTotal);
   const router = useRouter();
   const [trips, setTrips] = useState([]);
   const [selectedTrip, setSelectedTrip] = useState(null);
@@ -47,6 +47,7 @@ function Checkout() {
         tripId: selectedTrip.id,
         arrivalDate: selectedTrip.arrivalDate,
       };
+      console.log("orderData", orderData);
       return fetch("/api/setOrderTrip/", {
         method: "PUT",
         body: JSON.stringify(orderData),
