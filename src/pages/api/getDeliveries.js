@@ -12,7 +12,7 @@ export default async function handler(req, res) {
     try {
       const orders = await prisma.order.findMany({
         where: {
-          tripId: parseInt(tripId),
+          tripId: tripId,
         },
       });
 

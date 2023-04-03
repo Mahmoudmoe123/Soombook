@@ -4,6 +4,8 @@ import { useSession } from "next-auth/react";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import supabase from "../lib/supabase";
+import { useRouter } from 'next/router';
+
 
 import { stringify } from "postcss";
 function ProductForm() {
@@ -18,6 +20,10 @@ function ProductForm() {
   const { data: session, status } = useSession();
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
+  const router = useRouter();
+
+  
+  
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -55,7 +61,7 @@ function ProductForm() {
     return url;
   };
 
-  const addProduct = (intPrice, imageUrl) => {
+  const addProduct = async (intPrice, imageUrl) => {
     const data = {
       url,
       origin,
@@ -67,7 +73,21 @@ function ProductForm() {
       currentUserEmail: session.user.email,
       imageUrl: imageUrl,
     };
-    axios.post("/api/ordersapi", data);
+
+    try {
+      const response = await axios.post("/api/ordersapi", data);
+
+      if (response.status === 200) {
+        console.log("Order created successfully redirecting .....");
+        router.push("/userOrders"); // Redirect to a success page or the same page
+      } else {
+        // Handle errors
+        console.error(response.data.error);
+      }
+    } catch (error) {
+      // Handle errors
+      console.error("An error occurred while creating the order:", error);
+    }
   };
 
   useEffect(() => {

@@ -5,6 +5,8 @@ import { format } from "date-fns";
 import Header from "../components/Header";
 import { useSession } from "next-auth/react";
 import axios from "axios";
+import { useRouter } from 'next/router';
+
 
 function TravelForm() {
   const [origin, setOrigin] = useState("");
@@ -13,6 +15,7 @@ function TravelForm() {
   const [arrivalDate, setArrivalDate] = useState(new Date());
   const [countries, setCountries] = useState([]);
   const { data: session, status } = useSession();
+  const router = useRouter();
 
 
   const handleSubmit = (event) => {
@@ -28,17 +31,27 @@ function TravelForm() {
   const formatedArrivalDate = format(arrivalDate, "yyyy-MM-dd");
   const formatedDepartureDate = format(departureDate, "yyyy-MM-dd");
 
-  const addTrip = () => {
+  const addTrip = async () => {
     const data = {
       origin,
       destination,
       departureDate,
       arrivalDate,
       currentUserEmail: session.user.email,
-
     };
-
-    axios.post("/api/tripsapi", data);
+    try {
+      const response = await axios.post("/api/tripsapi", data);
+      if (response.status === 200) {
+        console.log("Trip created successfully redirecting .....");
+        router.push("/userTripsPage"); // Redirect to a success page or the same page
+      } else {
+        // Handle errors
+        console.error(response.data.error);
+      }
+    } catch (error) {
+      // Handle errors
+      console.error("An error occurred while creating the order:", error);
+    }
   };
 
   useEffect(() => {

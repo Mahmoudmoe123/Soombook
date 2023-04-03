@@ -15,6 +15,7 @@ function SupaCheckoutProduct({
   origin,
   destination,
   userId,
+  imageUrl,
 }) {
   const dispatch = useDispatch();
 
@@ -29,7 +30,8 @@ function SupaCheckoutProduct({
       category,
       origin,
       destination,
-      userId
+      userId,
+      imageUrl,
     };
 
     // push into redux
@@ -43,12 +45,10 @@ function SupaCheckoutProduct({
 
   return (
     <div className="grid grid-cols-5">
-        <p className="text-xs line-clamp-1">{url}</p>{" "}
+      <Image src={imageUrl} height={200} width={200} />
 
       <div className="col-span-3 mx-5">
-        <p className="    text-xs italic text-gray-400">
-          {category}
-        </p>
+        <p className="    text-xs italic text-gray-400">{category}</p>
         <h4 className="my-3">{title}</h4>
         <div>
           <p>{origin}</p>
@@ -56,6 +56,7 @@ function SupaCheckoutProduct({
         </div>
         <p className="text-xs my-2 line-clamp-2">{description}</p>
         <div className="mb-5">{numeral(price).format("0,0.00")} SDG</div>
+        <p className="text-xs line-clamp-1">{url}</p>{" "}
       </div>
 
       <div className=" flex flex-col space-y-2 my-auto justify-self-end">
