@@ -5,8 +5,7 @@ import { format } from "date-fns";
 import Header from "../components/Header";
 import { useSession } from "next-auth/react";
 import axios from "axios";
-import { useRouter } from 'next/router';
-
+import { useRouter } from "next/router";
 
 function TravelForm() {
   const [origin, setOrigin] = useState("");
@@ -16,7 +15,6 @@ function TravelForm() {
   const [countries, setCountries] = useState([]);
   const { data: session, status } = useSession();
   const router = useRouter();
-
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -94,7 +92,7 @@ function TravelForm() {
           >
             <option value="">Select origin country</option>
             {countries.map((country) => (
-              <option key={country.code} value={country.code}>
+              <option key={country.code} value={country.name}>
                 {country.name}
               </option>
             ))}
@@ -116,7 +114,7 @@ function TravelForm() {
           >
             <option value="">Select destination country</option>
             {countries.map((country) => (
-              <option key={country.code} value={country.code}>
+              <option key={country.code} value={country.name}>
                 {country.name}
               </option>
             ))}

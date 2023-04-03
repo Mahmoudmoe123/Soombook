@@ -28,7 +28,7 @@ export default async function handler(req, res) {
       <p>Category: ${emailinfo.category}</p>
       <p>Origin: ${emailinfo.origin}</p>
       <p>Destination: ${emailinfo.destination}</p>
-      <p>Arrival Date: ${emailinfo.arrivalDate}</p>
+      <p>Estimated Arrival Date: ${emailinfo.arrivalDate}</p>
       <p><strong>Description:</strong> ${emailinfo.description}</p>
       <div>
         <div>Price: ${emailinfo.price} SDG</div>

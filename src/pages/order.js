@@ -4,8 +4,7 @@ import { useSession } from "next-auth/react";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import supabase from "../lib/supabase";
-import { useRouter } from 'next/router';
-
+import { useRouter } from "next/router";
 
 import { stringify } from "postcss";
 function ProductForm() {
@@ -21,9 +20,6 @@ function ProductForm() {
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
   const router = useRouter();
-
-  
-  
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -149,7 +145,7 @@ function ProductForm() {
           />
         </div>
 
-        {/* <div className="mb-4">
+        <div className="mb-4">
           <label
             htmlFor="origin"
             className="block font-medium text-gray-700 mb-2"
@@ -165,7 +161,7 @@ function ProductForm() {
           >
             <option value="">Select origin country</option>
             {countries.map((country) => (
-              <option key={country.code} value={country.code}>
+              <option key={country.code} value={country.name}>
                 {country.name}
               </option>
             ))}
@@ -187,12 +183,12 @@ function ProductForm() {
           >
             <option value="">Select destination country</option>
             {countries.map((country) => (
-              <option key={country.code} value={country.code}>
+              <option key={country.code} value={country.name}>
                 {country.name}
               </option>
             ))}
           </select>
-        </div> */}
+        </div>
 
         <div className="mb-4">
           <label

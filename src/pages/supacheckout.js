@@ -79,6 +79,7 @@ function Checkout() {
         origin: item.origin,
         destination: item.destination,
         imageUrl: item.imageUrl,
+        arrivalDate: selectedTrip.arrivalDate,
       };
 
       return fetch("/api/orderemail", {

@@ -34,10 +34,10 @@ function UserOrders() {
                   Destination: {trip.destinationCountry}
                 </p>
                 <p className="text-sm text-gray-500 mb-4">
-                  Departure Date: {trip.departureDate}
+                  Departure Date: {new Date(trip.departureDate).toLocaleDateString()}
                 </p>
                 <p className="text-sm text-gray-500 mb-4">
-                  Arrival Date: {trip.arrivalDate}
+                  Arrival Date: {new Date(trip.arrivalDate).toLocaleDateString()}
                 </p>
 
                 <div className="flex justify-between items-center"></div>

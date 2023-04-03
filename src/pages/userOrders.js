@@ -45,7 +45,7 @@ function UserOrders() {
                   Destination: {order.destination}
                 </p>
                 <p className="text-sm text-gray-500 mb-4">
-                  Arrival Date: {order.arrivalDate}
+                  Arrival Date: {new Date(order.arrivalDate).toLocaleDateString()}
                 </p>
                 <p className="text-sm mb-4">
                   <strong>Description: </strong>
