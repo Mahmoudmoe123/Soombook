@@ -18,7 +18,23 @@ export default async function handler(req, res) {
     from: "Wasilaybusiness@gmail.com", // Change to your verified sender
     subject: "Your order has been accepted",
     text: "Your order has been accepted by a traveler, please check your account for more details as we'll keep you updateed",
-    html: `<p>${emailinfo.url}</p>`,
+    html: `<div>
+    <div style="text-align: center;">
+      <h2>${emailinfo.title}</h2>
+      <img src="${emailinfo.imageUrl}" alt="${emailinfo.title}" style="width: 100%; height: auto; max-width: 300px;"/>
+
+    </div>
+    <div>
+      <p>Category: ${emailinfo.category}</p>
+      <p>Origin: ${emailinfo.origin}</p>
+      <p>Destination: ${emailinfo.destination}</p>
+      <p>Arrival Date: ${emailinfo.arrivalDate}</p>
+      <p><strong>Description:</strong> ${emailinfo.description}</p>
+      <div>
+        <div>Price: ${emailinfo.price} SDG</div>
+      </div>
+    </div>
+  </div>`,
   };
   sgMail
     .send(msg)

@@ -1,8 +1,6 @@
 import Image from "next/image";
 import { useSession, signIn, signOut } from "next-auth/react";
-
 import { useRouter } from "next/router";
-
 import {
   MenuIcon,
   SearchIcon,
@@ -11,15 +9,19 @@ import {
 } from "@heroicons/react/24/outline";
 import { useSelector } from "react-redux";
 import { selectItems } from "../slices/basketSlice";
+import { useState } from "react";
+
 function Header() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const items = useSelector(selectItems);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <header className="md:container md:mx-auto">
-      <div className="flex items-center bg-amazon_blue p-1 flex-grow py-2">
-        <div className="mt-2 flex items-center flex-grow sm:flex-grow-0">
+    <header>
+          <div className="flex items-center bg-amazon_blue p-1 flex-grow py-2">
+
+          <div className="mt-2 flex items-center flex-grow sm:flex-grow-0">
           <Image
             onClick={() => router.push("/")}
             src="https://links.papareact.com/f90"
@@ -28,6 +30,13 @@ function Header() {
             style={{ objectFit: "contain" }}
             className="cursor-pointer"
           />
+        </div>
+        <div className="hidden sm:flex md:hidden items-center h-10 rounded-md bg-yellow-400 hover:bg-yellow-500 flex-grow cursor-pointer">
+          <input
+            type="text"
+            className="p-2 h-full w-6 flex-grow flex-shrink rounded-l-md focus:outline-none px-4 "
+          />
+          <ShoppingCartIcon className="h-12 p-4 " />
         </div>
         <div className="hidden md:flex items-center h-10 rounded-md bg-yellow-400 hover:bg-yellow-500 flex-grow cursor-pointer">
           <input
@@ -92,7 +101,7 @@ function Header() {
             </span>
             <ShoppingCartIcon className="h-10" />
             <p className="hidden md:inline font-extrabold md:text-sm mt-2 ">
-              Bakset
+              Basket
             </p>
           </div>
         </div>

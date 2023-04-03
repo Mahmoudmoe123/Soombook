@@ -8,7 +8,7 @@ datasource db {
 }
 
 model User {
-  id             Int             @id @default(autoincrement())
+  id             String          @id @default(uuid())
   name           String
   email          String          @unique
   createdAt      DateTime?       @default(now())
@@ -19,19 +19,18 @@ model User {
 }
 
 model Trip {
-  id                 Int       @id @default(autoincrement())
+  id                 String    @id @default(uuid())
   originCountry      String
   destinationCountry String
   departureDate      DateTime?
   arrivalDate        DateTime?
   user               User      @relation(fields: [userId], references: [id])
-
-  userId Int
-  orders Order[]
+  userId             String
+  orders             Order[]
 }
 
 model Order {
-  id                 Int       @id @default(autoincrement())
+  id                 String    @id @default(uuid())
   title              String    @default("Sample product")
   productUrl         String
   originCountry      String?
@@ -40,22 +39,19 @@ model Order {
   description        String?
   category           String?
   User               User      @relation(fields: [userId], references: [id])
-  userId             Int
+  userId             String
   imageUrl           String?
   Trip               Trip?     @relation(fields: [tripId], references: [id])
-  tripId             Int?
+  tripId             String?
   arrivalDate        DateTime?
- 
 }
 
-
-
 model Paymentmethod {
-  id            Int    @id @default(autoincrement())
+  id            String @id @default(uuid())
   firstName     String
   lastName      String
   accountNumber Int
   cardNumber    Int
   User          User   @relation(fields: [userId], references: [id])
-  userId        Int
+  userId        String
 }

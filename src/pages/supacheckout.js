@@ -12,7 +12,7 @@ import TravelForm from "../components/TravelForm";
 
 function Checkout() {
   const items = useSelector(selectItems);
-  const total = useSelector(selectTotal);
+  const total = useSelector(selectTotal); 
   const router = useRouter();
   const [trips, setTrips] = useState([]);
   const [selectedTrip, setSelectedTrip] = useState(null);
@@ -77,12 +77,19 @@ function Checkout() {
         category: item.category,
         origin: item.origin,
         destination: item.destination,
+        imageUrl: item.imageUrl,
       };
+
       return fetch("/api/orderemail", {
         method: "post",
         body: JSON.stringify(emailinfo),
       })
-        .then(() => {
+        .then((response) => {
+          if (response.status === 200) {
+            console.log("Order created successfully redirecting .....");
+            router.push("/userDeliveriesPage"); // Redirect to a success page or the same page
+          }
+
           console.log(`Email sent to ${emailinfo.userId}`);
         })
         .catch((error) => {
@@ -130,6 +137,7 @@ function Checkout() {
                 origin={item.origin}
                 destination={item.destination}
                 userId={item.userId}
+                imageUrl={item.imageUrl}
               />
             ))}
           </div>
@@ -219,7 +227,9 @@ function Checkout() {
                       </button>
                     </>
                   ) : (
-                    <button disabled className="button w-full">Select A Trip</button>
+                    <button disabled className="button w-full">
+                      Select A Trip
+                    </button>
                   )}
                 </>
               )}
