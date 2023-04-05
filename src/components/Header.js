@@ -135,7 +135,7 @@ export default function Example() {
                         <Menu.Item onClick={() => signOut}>
                           {({ active }) => (
                             <button
-                            onClick={() => signOut({ callbackUrl: '/' })}
+                            onClick={() => signOut()}
                             className={classNames(
                               active ? 'bg-gray-100' : '',
                               'block w-full text-left px-4 py-2 text-sm text-gray-700'
