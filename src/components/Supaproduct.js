@@ -5,8 +5,6 @@ import numeral from "numeral";
 import { useDispatch } from "react-redux";
 import { addToBasket } from "../slices/basketSlice";
 
-const MAX_RATING = 5;
-const MIN_RATING = 1;
 function Product({
   id,
   title,
@@ -19,8 +17,6 @@ function Product({
   userId,
   imageUrl,
 }) {
-  //   const [rating, setRating] = useState(1);
-  //   const [hasPrime, setHasPrime] = useState(true);
   const dispatch = useDispatch();
 
   const addItemToBasket = () => {
@@ -36,47 +32,39 @@ function Product({
       userId,
       imageUrl,
     };
-    //Sending the product as an actoin to the redux store
     dispatch(addToBasket(product));
   };
 
-  //   useEffect(() => {
-  //     setRating(
-  //       Math.floor(Math.random() * (MAX_RATING - MIN_RATING + 1)) + MIN_RATING
-  //     );
-  //     setHasPrime(Math.random() < 0.5);
-  //   }, []);
   return (
-    <div
-      className="relative flex
-     flex-col m-5 bg-white z-30  p-10 "
-    >
-      <p className="  absolute right-2 top-2  text-xs italic text-gray-400">
+    <div className="relative flex flex-col m-5 bg-white z-30 p-6 rounded-lg shadow-md hover:shadow-lg transition duration-200 ease-in">
+      <p className="absolute right-2 top-2 text-xs italic text-gray-400">
         {category}
       </p>
-      
-      <Image
-        src={imageUrl}
-        height={150}
-        width={200}
-        style={{ objectFit: "contain" }}
-        className="mx-auto"
-      />
-      <p className="text-xs line-clamp-1">{url}</p>{" "}
-      <h4 className="my-3">{title}</h4>
-      <div>
+
+      <div className="w-200 h-150 mx-auto mb-4 rounded-md overflow-hidden">
+        <Image
+          src={imageUrl}
+          height={150}
+          width={200}
+          style={{ objectFit: "cover", objectPosition: "center" }}
+          className="mx-auto mb-4 rounded-md"
+        />
+      </div>
+
+      <p className="text-xs mb-2 line-clamp-1">{url}</p>
+      <h4 className="my-2 text-lg font-semibold">{title}</h4>
+      <div className="mb-2">
         <p>{origin}</p>
         <p>{destination}</p>
       </div>
       <p className="text-xs my-2 line-clamp-2">{description}</p>
-      <div className="mb-5">{numeral(price).format("0,0.00")} SDG</div>
-      {/* {hasPrime && (
-        <div className=" flex items-center space-x-2 -mt-2">
-          <img className="w-12 " src="https://links.papareact.com/fdw" alt="" />
-          <p className="text-xs text-gray-500 ">Free Soombook delivery</p>
-        </div>
-      )} */}
-      <button onClick={addItemToBasket} className="mt-auto button">
+      <div className="mb-5 font-semibold text-lg">
+        {numeral(price).format("0,0.00")} SDG
+      </div>
+      <button
+        onClick={addItemToBasket}
+        className="mt-auto w-full py-2 px-4 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-semibold rounded-md shadow transition duration-200 ease-in"
+      >
         Add to Basket
       </button>
     </div>

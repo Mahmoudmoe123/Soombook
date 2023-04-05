@@ -1,9 +1,9 @@
 import Head from "next/head";
 import Banner from "../components/Banner";
-import Header from "../components/Header";
 // import { PrismaClient } from '@prisma/client'
 import Supaproductfeed from "../components/Supaproductfeed";
 import prisma from "../lib/prisma";
+import Header from "../components/Header";
 
 export default function Home({ orders }) {
   return (
@@ -14,8 +14,9 @@ export default function Home({ orders }) {
 
       {/* ---- TO BEGIN, delete this section and GET CODING!!! ---- */}
       {/* ---- ---- */}
-      <Header />
-      <main className="max-w-screen-2xl mx-auto">
+      {/* <Header /> */}
+    <Header />
+        <main className="max-w-screen-2xl mx-auto">
         <Banner />
         <Supaproductfeed products={orders} />
       </main>
