@@ -16,6 +16,8 @@ function ProductForm() {
   const [description, setDescription] = useState("");
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
+  const [pickupLocation, setPickupLocation] = useState("");
+
   const { data: session, status } = useSession();
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
@@ -68,6 +70,7 @@ function ProductForm() {
       price: intPrice,
       currentUserEmail: session.user.email,
       imageUrl: imageUrl,
+      pickupLocation,
     };
 
     try {
@@ -272,6 +275,24 @@ function ProductForm() {
             placeholder="Enter product price"
             value={price}
             onChange={(e) => setPrice(e.target.value)}
+            required
+          />
+        </div>
+
+        <div className="mb-4">
+          <label
+            htmlFor="pickupLocation"
+            className="block font-medium text-gray-700 mb-2"
+          >
+            Pickup Location
+          </label>
+          <input
+            type="text"
+            id="pickupLocation"
+            className="w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            placeholder="Enter Pickup Location"
+            value={pickupLocation}
+            onChange={(e) => setPickupLocation(e.target.value)}
             required
           />
         </div>

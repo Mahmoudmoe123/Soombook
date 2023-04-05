@@ -9,6 +9,9 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import supabase from "../lib/supabase";
 import TravelForm from "../components/TravelForm";
+import { clearBasket } from "../slices/basketSlice";
+import { useDispatch } from "react-redux";
+
 
 function Checkout() {
   const items = useSelector(selectItems);
@@ -18,6 +21,8 @@ function Checkout() {
   const [selectedTrip, setSelectedTrip] = useState(null);
   const { data: session, status } = useSession();
   const [showTravelForm, setShowTravelForm] = useState(false);
+  const dispatch = useDispatch();
+
 
   useEffect(() => {
     async function loadTrips() {
@@ -38,6 +43,7 @@ function Checkout() {
     await updateoOrderInfo();
 
     await sendCartUsersEmail();
+    dispatch(clearBasket());
   };
 
   const updateoOrderInfo = async () => {
@@ -171,10 +177,10 @@ function Checkout() {
                         {trip.destinationCountry}
                       </p>
                       <p className="text-gray-600 text-sm mb-2">
-                        Departure: {trip.departureDate}
+                        Departure: {new Date(trip.departureDate).toLocaleDateString()}
                       </p>
                       <p className="text-gray-600 text-sm mb-2">
-                        Arrival: {trip.arrivalDate}
+                        Arrival: {new Date(trip.arrivalDate).toLocaleDateString()}
                       </p>
                     </div>
                   </div>

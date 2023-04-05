@@ -1,137 +1,187 @@
-import Image from "next/image";
+import { Fragment } from "react";
+import { Disclosure, Menu, Transition } from "@headlessui/react";
+import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { useRouter } from "next/router";
-import {
-  MenuIcon,
-  SearchIcon,
-  ShoppingCartIcon,
-  Bars3Icon,
-} from "@heroicons/react/24/outline";
+import Image from "next/image";
 import { useSelector } from "react-redux";
 import { selectItems } from "../slices/basketSlice";
 import { useState } from "react";
 
-function Header() {
+const navigation = [
+  { name: "Home", href: "/", current: true },
+  { name: "Order", href: "/order", current: false },
+  { name: "Travel", href: "/travel", current: false },
+  { name: "Your Deliveries", href: "/userDeliveriesPage", current: false },
+];
+
+function classNames(...classes) {
+  return classes.filter(Boolean).join(" ");
+}
+
+export default function Example() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const items = useSelector(selectItems);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <header>
-          <div className="flex items-center bg-amazon_blue p-1 flex-grow py-2">
+    <Disclosure as="nav" className="bg-gray-800">
+      {({ open }) => (
+        <>
+          <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+            <div className="relative flex h-16 items-center justify-between">
+              <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
+                {/* Mobile menu button*/}
+                <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                  <span className="sr-only">Open main menu</span>
+                  {open ? (
+                    <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
+                  ) : (
+                    <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
+                  )}
+                </Disclosure.Button>
+              </div>
+              <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+                <div className="flex flex-shrink-0 items-center">
+                  <img
+                    className="block h-8 w-auto lg:hidden"
+                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                    alt="Your Company"
+                  />
+                  <img
+                    className="hidden h-8 w-auto lg:block"
+                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                    alt="Your Company"
+                  />
+                </div>
+                <div className="hidden sm:ml-6 sm:block">
+                  <div className="flex space-x-4">
+                    {navigation.map((item) => (
+                      <a
+                        key={item.name}
+                        href={item.href}
+                        className={classNames(
+                          item.current
+                            ? "bg-gray-900 text-white"
+                            : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                          "rounded-md px-3 py-2 text-sm font-medium"
+                        )}
+                        aria-current={item.current ? "page" : undefined}
+                      >
+                        {item.name}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                <button
+                  type="button"
+                  className="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                >
+                  <span className="sr-only">View notifications</span>
+                  <BellIcon className="h-6 w-6" aria-hidden="true" />
+                </button>
 
-          <div className="mt-2 flex items-center flex-grow sm:flex-grow-0">
-          <Image
-            onClick={() => router.push("/")}
-            src="https://links.papareact.com/f90"
-            width={150}
-            height={40}
-            style={{ objectFit: "contain" }}
-            className="cursor-pointer"
-          />
-        </div>
-        <div className="hidden sm:flex md:hidden items-center h-10 rounded-md bg-yellow-400 hover:bg-yellow-500 flex-grow cursor-pointer">
-          <input
-            type="text"
-            className="p-2 h-full w-6 flex-grow flex-shrink rounded-l-md focus:outline-none px-4 "
-          />
-          <ShoppingCartIcon className="h-12 p-4 " />
-        </div>
-        <div className="hidden md:flex items-center h-10 rounded-md bg-yellow-400 hover:bg-yellow-500 flex-grow cursor-pointer">
-          <input
-            type="text"
-            className="p-2 h-full w-6 flex-grow flex-shrink rounded-l-md focus:outline-none px-4 "
-          />
-          <ShoppingCartIcon className="h-12 p-4 " />
-        </div>
-
-        <div className="text-white flex items-center text-xs space-x-6 mx-6 whitespace-nowrap">
-          <div onClick={!session ? signIn : undefined} className="link">
-            <p>{session ? `Hello ${session.user.name}` : "Sign-In"}</p>
-            <p className="font-extrabold md:text-sm">Accounts & Lists</p>
+                {/* Profile dropdown */}
+                {session ? (
+                  <Menu as="div" className="relative ml-3">
+                    <div>
+                      <Menu.Button className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                        <span className="sr-only">Open user menu</span>
+                        <img
+                          className="h-8 w-8 rounded-full"
+                          src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                          alt=""
+                        />
+                      </Menu.Button>
+                    </div>
+                    <Transition
+                      as={Fragment}
+                      enter="transition ease-out duration-100"
+                      enterFrom="transform opacity-0 scale-95"
+                      enterTo="transform opacity-100 scale-100"
+                      leave="transition ease-in duration-75"
+                      leaveFrom="transform opacity-100 scale-100"
+                      leaveTo="transform opacity-0 scale-95"
+                    >
+                      <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                        <Menu.Item>
+                          {({ active }) => (
+                            <a
+                              href="#"
+                              className={classNames(
+                                active ? "bg-gray-100" : "",
+                                "block px-4 py-2 text-sm text-gray-700"
+                              )}
+                            >
+                              Your Profile
+                            </a>
+                          )}
+                        </Menu.Item>
+                        <Menu.Item>
+                          {({ active }) => (
+                            <a
+                              href="#"
+                              className={classNames(
+                                active ? "bg-gray-100" : "",
+                                "block px-4 py-2 text-sm text-gray-700"
+                              )}
+                            >
+                              Settings
+                            </a>
+                          )}
+                        </Menu.Item>
+                        <Menu.Item onClick={() => signOut}>
+                          {({ active }) => (
+                            <button
+                            onClick={() => signOut({ callbackUrl: '/' })}
+                            className={classNames(
+                              active ? 'bg-gray-100' : '',
+                              'block w-full text-left px-4 py-2 text-sm text-gray-700'
+                            )}
+                          >
+                            Sign out
+                          </button>
+                          )}
+                        </Menu.Item>
+                      </Menu.Items>
+                    </Transition>
+                  </Menu>
+                ) : (
+                  <button
+                    onClick={() => signIn()}
+                    className="ml-3 text-gray-300 hover:text-white text-sm font-medium focus:outline-none"
+                  >
+                    Sign In
+                  </button>
+                )}
+              </div>
+            </div>
           </div>
 
-          {session && (
-            <div onClick={signOut} className="link items-center">
-              <p>Sign</p>
-              <p className="font-extrabold md:text-sm">Out</p>
+          <Disclosure.Panel className="sm:hidden">
+            <div className="space-y-1 px-2 pb-3 pt-2">
+              {navigation.map((item) => (
+                <Disclosure.Button
+                  key={item.name}
+                  as="a"
+                  href={item.href}
+                  className={classNames(
+                    item.current
+                      ? "bg-gray-900 text-white"
+                      : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                    "block rounded-md px-3 py-2 text-base font-medium"
+                  )}
+                  aria-current={item.current ? "page" : undefined}
+                >
+                  {item.name}
+                </Disclosure.Button>
+              ))}
             </div>
-          )}
-          {session && (
-            <div onClick={() => router.push("/userOrders")} className="link">
-              <p>Returns</p>
-              <p className="font-extrabold md:text-sm">& Orders</p>
-            </div>
-          )}
-          {session && (
-            <div
-              onClick={() => router.push("/userTripsPage")}
-              className="link items-center"
-            >
-              <p>Your</p>
-              <p className="font-extrabold md:text-sm">Trips</p>
-            </div>
-          )}
-          {session && (
-            <div
-              onClick={() => router.push("/userDeliveriesPage")}
-              className="link items-center"
-            >
-              <p>Your</p>
-              <p className="font-extrabold md:text-sm">Deliveries</p>
-            </div>
-          )}
-
-          {session && (
-            <div
-              onClick={() => router.push("/payment")}
-              className="link items-center"
-            >
-              <p>Payment</p>
-              <p className="font-extrabold md:text-sm">Profile</p>
-            </div>
-          )}
-          <div
-            onClick={() => router.push("/supacheckout")}
-            className="relative link flex items-center"
-          >
-            <span className="absolute top-0 right-0 md:right-10 h-4 w-4 bg-yellow-400 text-center rounded-full text-black font-bold">
-              {items.length}
-            </span>
-            <ShoppingCartIcon className="h-10" />
-            <p className="hidden md:inline font-extrabold md:text-sm mt-2 ">
-              Basket
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div className="flex items-center space-x-3 p-2 pl-6 bg-amazon_blue-light h-10 text-white text-sm">
-        <p className="link flex items-center">
-          <Bars3Icon className="h-6 mr-1" />
-          All
-        </p>
-        <p onClick={() => router.push("travel")} className="link">
-          Travel
-        </p>
-        <p onClick={() => router.push("order")} className="link">
-          Order
-        </p>
-
-        <p className="link">Today's Deals</p>
-        <p className="link hidden lg:inline-flex">Electronics</p>
-        <p className="link hidden lg:inline-flex">Food & Grocery</p>
-
-        <p className="link hidden lg:inline-flex">Soombook +</p>
-        <p className="link hidden lg:inline-flex">Buy Again</p>
-
-        <p className="link hidden lg:inline-flex">Shop/Order Now</p>
-
-        <p className="link hidden lg:inline-flex">Beauty</p>
-      </div>
-    </header>
+          </Disclosure.Panel>
+        </>
+      )}
+    </Disclosure>
   );
 }
-
-export default Header;

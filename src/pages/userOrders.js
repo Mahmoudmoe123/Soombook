@@ -39,14 +39,18 @@ function UserOrders() {
                   Category: {order.category}
                 </p>
                 <p className="text-sm text-gray-500 mb-2">
-                  Origin: {order.origin}
+                  Origin: {order.originCountry}
                 </p>
                 <p className="text-sm text-gray-500 mb-2">
-                  Destination: {order.destination}
+                  Destination: {order.destinationCountry}
                 </p>
                 <p className="text-sm text-gray-500 mb-4">
-                  Arrival Date: {new Date(order.arrivalDate).toLocaleDateString()}
+                  Arrival Date:{" "}
+                  {order.arrivalDate
+                    ? new Date(order.arrivalDate).toLocaleDateString()
+                    : "Order Hasn't Been Accepted Yet"}
                 </p>
+
                 <p className="text-sm mb-4">
                   <strong>Description: </strong>
                   {order.description}

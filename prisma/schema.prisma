@@ -44,6 +44,7 @@ model Order {
   Trip               Trip?     @relation(fields: [tripId], references: [id])
   tripId             String?
   arrivalDate        DateTime?
+  pickupLocation     String?
 }
 
 model Paymentmethod {

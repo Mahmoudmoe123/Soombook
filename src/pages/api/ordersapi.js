@@ -15,6 +15,7 @@ export default async function handler(req, res) {
         price,
         currentUserEmail,
         imageUrl,
+        pickupLocation,
       } = req.body;
 
     
@@ -36,6 +37,7 @@ export default async function handler(req, res) {
           category: category,
           userId: user.id,
           imageUrl: imageUrl,
+          pickupLocation: pickupLocation,
         },
       });
 
