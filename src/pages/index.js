@@ -4,6 +4,7 @@ import Banner from "../components/Banner";
 import Supaproductfeed from "../components/Supaproductfeed";
 import prisma from "../lib/prisma";
 import Header from "../components/Header";
+import Navbar from "../components/Navbar";
 
 export default function Home({ orders }) {
   return (
@@ -16,6 +17,7 @@ export default function Home({ orders }) {
       {/* ---- ---- */}
       {/* <Header /> */}
     <Header />
+    {/* <Navbar /> */}
         <main className="max-w-screen-2xl mx-auto">
         <Banner />
         <Supaproductfeed products={orders} />
