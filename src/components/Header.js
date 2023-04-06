@@ -25,7 +25,7 @@ const Header = () => {
   return (
     <nav className="bg-gray-800 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-16 ">
           <div className="flex items-center justify-between w-full md:justify-start">
             <div className="-ml-2 flex md:hidden">
               <button
@@ -60,7 +60,6 @@ const Header = () => {
                 height={100}
               />
             </a>
-
             <div className="hidden ml-4 space-x-4 md:flex">
               <button
                 className="block text-white px-3 py-2 rounded-md text-base font-medium w-full text-left hover:bg-gray-700 focus:outline-none focus:bg-gray-700"
@@ -68,6 +67,7 @@ const Header = () => {
               >
                 Order
               </button>
+
               <button
                 className="block text-white px-3 py-2 rounded-md text-base font-medium w-full text-left hover:bg-gray-700 focus:outline-none focus:bg-gray-700"
                 onClick={() => router.push("/travel")}
@@ -81,14 +81,22 @@ const Header = () => {
                 Your Deliveries
               </button>
             </div>
-
             {/* Sign In Button */}
-            <div className="ml-auto flex space-x-3">
+            <div className="ml-auto flex justify-between space-x-3">
               <button
                 onClick={!session ? signIn : toggleSidebar}
-                className="text-white font-medium text-sm hover:underline focus:outline-none"
+                className="text-white font-medium text-sm hover:underline focus:outline-none flex items-center"
               >
-                <p>{session ? `Hello ${session.user.name}` : "Sign-In"}</p>
+                <p className="hidden md:inline">
+                  {session ? `Hello ${session.user.name}` : "Sign-In"}
+                </p>
+                {session && (
+                  <img
+                    src={session.user.image}
+                    alt="User profile"
+                    className="w-10 h-10 md:w-10 md:h-10 rounded-full object-cover inline ml-2"
+                  />
+                )}
               </button>
 
               <div
@@ -99,23 +107,20 @@ const Header = () => {
                   {items.length}
                 </span>
                 <ShoppingCartIcon className="h-10" />
-                <p className="hidden md:inline font-extrabold md:text-sm mt-2 ">
+                <p className="hidden md:inline font-extrabold md:text-sm mt-2">
                   Basket
                 </p>
               </div>
             </div>
           </div>
-          <a
-            href="/"
-            className="md:hidden text-white font-bold text-xl absolute left-1/2 transform -translate-x-1/2"
-          >
+          <div className="md:hidden text-white font-bold text-xl absolute left-1/2 transform -translate-x-1/2 ">
             <Image
               src="https://logopond.com/logos/cfe0510f7a2888be7ea56da181e90d4a.png"
               width={100}
               height={100}
-              objectFit="contain"
+              onClick={() => router.push("/")}
             />
-          </a>
+          </div>
         </div>
       </div>
 
@@ -143,45 +148,61 @@ const Header = () => {
       </div>
 
       {isSidebarOpen && (
-        <div className="fixed inset-y-0 right-0 flex flex-col bg-gray-800 w-64 h-full p-4 space-y-4 text-white z-50">
-          <div className="flex justify-end mb-4">
-            <button
-              onClick={toggleSidebar}
-              className="text-white focus:outline-none"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+        <div className="fixed inset-y-0 right-0 flex flex-col justify-between bg-gray-800 w-64 h-full p-4 space-y-4 text-white z-50">
+          <div>
+            <div className="flex justify-end mb-4">
+              <button
+                onClick={toggleSidebar}
+                className="text-white focus:outline-none"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </div>
+            <button
+              className="text-white font-medium text-lg py-2 px-4 rounded-md hover:bg-gray-700 focus:bg-gray-700 focus:outline-none w-full text-left"
+              onClick={() => router.push("/userTripsPage")}
+            >
+              Your Trips{" "}
+            </button>
+            <button
+              className="text-white font-medium text-lg py-2 px-4 rounded-md hover:bg-gray-700 focus:bg-gray-700 focus:outline-none w-full text-left"
+              onClick={() => router.push("/userOrders")}
+            >
+              Your Orders{" "}
+            </button>
+            <button
+              className="text-white font-medium text-lg py-2 px-4 rounded-md hover:bg-gray-700 focus:bg-gray-700 focus:outline-none w-full text-left"
+              onClick={() => router.push("/userDeliveriesPage")}
+            >
+              Your Deliveries{" "}
+            </button>
+
+            <button
+              className="text-white font-medium text-lg py-2 px-4 rounded-md hover:bg-gray-700 focus:bg-gray-700 focus:outline-none w-full text-left"
+              onClick={() => router.push("/payment")}
+            >
+              Your Payment Profile{" "}
             </button>
           </div>
+
           <button
-            className="text-white font-medium text-lg py-2 px-4 rounded-md hover:bg-gray-700 focus:bg-gray-700 focus:outline-none"
-            onClick={() => router.push("/navOption1")}
+            className="text-white font-medium text-lg py-2 px-4 rounded-md hover:bg-gray-700 focus:bg-gray-700 focus:outline-none w-full text-left"
+            onClick={() => signOut()}
           >
-            Nav Option 1
-          </button>
-          <button
-            className="text-white font-medium text-lg py-2 px-4 rounded-md hover:bg-gray-700 focus:bg-gray-700 focus:outline-none"
-            onClick={() => router.push("/navOption2")}
-          >
-            Nav Option 2
-          </button>
-          <button
-            className="text-white font-medium text-lg py-2 px-4 rounded-md hover:bg-gray-700 focus:bg-gray-700 focus:outline-none"
-            onClick={() => router.push("/navOption3")}
-          >
-            Nav Option 3
+            Sign Out
           </button>
         </div>
       )}
