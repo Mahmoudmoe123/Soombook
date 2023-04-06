@@ -4,19 +4,12 @@ import Image from "next/image";
 import { useSelector } from "react-redux";
 import { selectItems } from "../slices/basketSlice";
 import { useState } from "react";
-import {
-  MenuIcon,
-  SearchIcon,
-  ShoppingCartIcon,
-  Bars3Icon,
-} from "@heroicons/react/24/outline";
 
-const Header = () => {
+const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   const { data: session, status } = useSession();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const items = useSelector(selectItems);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -63,19 +56,19 @@ const Header = () => {
 
             <div className="hidden ml-4 space-x-4 md:flex">
               <button
-                className="block text-white px-3 py-2 rounded-md text-base font-medium w-full text-left hover:bg-gray-700 focus:outline-none focus:bg-gray-700"
+                className="block text-white px-3 py-2 rounded-md text-base font-medium w-full text-left"
                 onClick={() => router.push("/order")}
               >
                 Order
               </button>
               <button
-                className="block text-white px-3 py-2 rounded-md text-base font-medium w-full text-left hover:bg-gray-700 focus:outline-none focus:bg-gray-700"
+                className="block text-white px-3 py-2 rounded-md text-base font-medium w-full text-left"
                 onClick={() => router.push("/travel")}
               >
                 Travel
               </button>
               <button
-                className="block text-white px-3 py-2 rounded-md text-base font-medium w-full text-left hover:bg-gray-700 focus:outline-none focus:bg-gray-700"
+                className="block text-white px-3 py-2 rounded-md text-base font-medium w-full text-left"
                 onClick={() => router.push("/userDeliveriesPage")}
               >
                 Your Deliveries
@@ -83,26 +76,10 @@ const Header = () => {
             </div>
 
             {/* Sign In Button */}
-            <div className="ml-auto flex space-x-3">
-              <button
-                onClick={!session ? signIn : toggleSidebar}
-                className="text-white font-medium text-sm hover:underline focus:outline-none"
-              >
+            <div className="ml-auto">
+              <button onClick={!session ? signIn : toggleSidebar}>
                 <p>{session ? `Hello ${session.user.name}` : "Sign-In"}</p>
               </button>
-
-              <div
-                onClick={() => router.push("/supacheckout")}
-                className="relative link flex items-center"
-              >
-                <span className="absolute top-0 right-0 md:right-10 h-4 w-4 bg-yellow-400 text-center rounded-full text-black font-bold">
-                  {items.length}
-                </span>
-                <ShoppingCartIcon className="h-10" />
-                <p className="hidden md:inline font-extrabold md:text-sm mt-2 ">
-                  Basket
-                </p>
-              </div>
             </div>
           </div>
           <a
@@ -122,19 +99,19 @@ const Header = () => {
       <div className={`${isOpen ? "block" : "hidden"} md:hidden`}>
         <div className="px-2 pt-2 pb-3 space-y-1">
           <button
-            className="block text-white px-3 py-2 rounded-md text-base font-medium w-full text-left hover:bg-gray-700 focus:outline-none focus:bg-gray-700"
+            className="block text-white px-3 py-2 rounded-md text-base font-medium w-full text-left"
             onClick={() => router.push("/order")}
           >
             Order
           </button>
           <button
-            className="block text-white px-3 py-2 rounded-md text-base font-medium w-full text-left hover:bg-gray-700 focus:outline-none focus:bg-gray-700"
+            className="block text-white px-3 py-2 rounded-md text-base font-medium w-full text-left"
             onClick={() => router.push("/travel")}
           >
             Travel
           </button>
           <button
-            className="block text-white px-3 py-2 rounded-md text-base font-medium w-full text-left hover:bg-gray-700 focus:outline-none focus:bg-gray-700"
+            className="block text-white px-3 py-2 rounded-md text-base font-medium w-full text-left"
             onClick={() => router.push("/userDeliveriesPage")}
           >
             Your Deliveries
@@ -144,7 +121,7 @@ const Header = () => {
 
       {isSidebarOpen && (
         <div className="fixed inset-y-0 right-0 flex flex-col bg-gray-800 w-64 h-full p-4 space-y-4 text-white z-50">
-          <div className="flex justify-end mb-4">
+          <div className="flex justify-end">
             <button
               onClick={toggleSidebar}
               className="text-white focus:outline-none"
@@ -166,19 +143,19 @@ const Header = () => {
             </button>
           </div>
           <button
-            className="text-white font-medium text-lg py-2 px-4 rounded-md hover:bg-gray-700 focus:bg-gray-700 focus:outline-none"
+            className="text-white font-medium text-lg"
             onClick={() => router.push("/navOption1")}
           >
             Nav Option 1
           </button>
           <button
-            className="text-white font-medium text-lg py-2 px-4 rounded-md hover:bg-gray-700 focus:bg-gray-700 focus:outline-none"
+            className="text-white font-medium text-lg"
             onClick={() => router.push("/navOption2")}
           >
             Nav Option 2
           </button>
           <button
-            className="text-white font-medium text-lg py-2 px-4 rounded-md hover:bg-gray-700 focus:bg-gray-700 focus:outline-none"
+            className="text-white font-medium text-lg"
             onClick={() => router.push("/navOption3")}
           >
             Nav Option 3
@@ -189,4 +166,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default Navbar;

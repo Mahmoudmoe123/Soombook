@@ -8,6 +8,8 @@ module.exports = {
       "https://is2-ssl.mzstatic.com/",
       "https://ffyuiicnuiyyufohhsca.supabase.co/storage/v1/object/public/images",
       "ffyuiicnuiyyufohhsca.supabase.co",
+      "logopond.com",
+      "https://logopond.com/logos"
     ],
   },
   experimental: {
