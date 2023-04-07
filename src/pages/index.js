@@ -1,12 +1,39 @@
 import Head from "next/head";
 import Banner from "../components/Banner";
-// import { PrismaClient } from '@prisma/client'
 import Supaproductfeed from "../components/Supaproductfeed";
 import prisma from "../lib/prisma";
 import Header from "../components/Header";
-import Navbar from "../components/Navbar";
+import { getMessaging, getToken,onMessage } from "firebase/messaging";
+
+import app from "../firebase";
 
 export default function Home({ orders }) {
+  function requestPermission() {
+    console.log("Requesting permission...");
+    Notification.requestPermission().then((permission) => {
+      if (permission === "granted") {
+        console.log("Notification permission granted.");
+        const messaging = getMessaging(app);
+        onMessage(messaging, (payload) => {
+          console.log('Message received. ', payload);
+        });
+
+        getToken(messaging, {
+          vapidKey:
+            "BPXJQ-KqNphqwXiq6giKPnru1p6glK9uoHgYT3y2YFXQy3vR37RQblC-EjG2ONJus_Dx1ZAhYEELqccxgZINVjY",
+        }).then((currentToken) => {
+          if (currentToken) {
+            console.log("current token: " + currentToken);
+          } else {
+            console.log("no token, cant get it");
+          }
+        });
+      } else {
+        console.log("permission not granted.");
+      }
+    });
+  }
+
   return (
     <div className="bg-gray-100">
       <Head>
@@ -16,9 +43,11 @@ export default function Home({ orders }) {
       {/* ---- TO BEGIN, delete this section and GET CODING!!! ---- */}
       {/* ---- ---- */}
       {/* <Header /> */}
-    <Header />
-    {/* <Navbar /> */}
-        <main className="max-w-screen-2xl mx-auto">
+      <button onClick={requestPermission}> Notification Permission</button>
+
+      <Header />
+      {/* <Navbar /> */}
+      <main className="max-w-screen-2xl mx-auto">
         <Banner />
         <Supaproductfeed products={orders} />
       </main>
