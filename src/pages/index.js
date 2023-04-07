@@ -56,7 +56,7 @@ export default function Home({ orders }) {
       <button onClick={requestPermission}> Notification Permission</button>
 
       //if there is a test token, display it
-      {testToken && <p>Test Token: {testToken}</p>}
+      {testToken && <p>Test Token is : {testToken}</p>}
 
       <Header />
       {/* <Navbar /> */}
