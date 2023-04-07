@@ -6,8 +6,15 @@ import Header from "../components/Header";
 import { getMessaging, getToken,onMessage } from "firebase/messaging";
 
 import app from "../firebase";
+import { useState } from "react";
 
 export default function Home({ orders }) {
+  const [testToken, setTestToken] = useState("");
+
+
+
+
+
   function requestPermission() {
     console.log("Requesting permission...");
     Notification.requestPermission().then((permission) => {
@@ -24,6 +31,7 @@ export default function Home({ orders }) {
         }).then((currentToken) => {
           if (currentToken) {
             console.log("current token: " + currentToken);
+            setTestToken(currentToken);
           } else {
             console.log("no token, cant get it");
           }
@@ -39,11 +47,16 @@ export default function Home({ orders }) {
       <Head>
         <title>Amazon 2.0</title>
       </Head>
+      
+
 
       {/* ---- TO BEGIN, delete this section and GET CODING!!! ---- */}
       {/* ---- ---- */}
       {/* <Header /> */}
       <button onClick={requestPermission}> Notification Permission</button>
+
+      //if there is a test token, display it
+      {testToken && <p>Test Token: {testToken}</p>}
 
       <Header />
       {/* <Navbar /> */}
