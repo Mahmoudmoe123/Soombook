@@ -74,12 +74,12 @@ const Header = () => {
               >
                 Travel
               </button>
-              <button
+              {/* <button
                 className="block text-white px-3 py-2 rounded-md text-base font-medium w-full text-left hover:bg-gray-700 focus:outline-none focus:bg-gray-700"
                 onClick={() => router.push("/userDeliveriesPage")}
               >
                 Your Deliveries
-              </button>
+              </button> */}
             </div>
             {/* Sign In Button */}
             <div className="ml-auto flex justify-between space-x-3">
@@ -138,12 +138,15 @@ const Header = () => {
           >
             Travel
           </button>
-          <button
-            className="block text-white px-3 py-2 rounded-md text-base font-medium w-full text-left hover:bg-gray-700 focus:outline-none focus:bg-gray-700"
-            onClick={() => router.push("/userDeliveriesPage")}
-          >
-            Your Deliveries
-          </button>
+
+          {!session && (
+            <button
+              className="block text-white px-3 py-2 rounded-md text-base font-medium w-full text-left hover:bg-gray-700 focus:outline-none focus:bg-gray-700"
+              onClick={signIn}
+            >
+              Sign In{" "}
+            </button>
+          )}
         </div>
       </div>
 
