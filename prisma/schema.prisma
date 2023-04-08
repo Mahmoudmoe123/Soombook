@@ -16,6 +16,7 @@ model User {
   orders         Order[]
   paymentmethods Paymentmethod[]
   trips          Trip[]
+  phoneNumber   String?        @unique
 }
 
 model Trip {
@@ -27,6 +28,7 @@ model Trip {
   user               User      @relation(fields: [userId], references: [id])
   userId             String
   orders             Order[]
+
 }
 
 model Order {
@@ -45,6 +47,7 @@ model Order {
   tripId             String?
   arrivalDate        DateTime?
   pickupLocation     String?
+  contactNumber      String?
 }
 
 model Paymentmethod {
