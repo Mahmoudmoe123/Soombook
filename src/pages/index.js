@@ -43,6 +43,8 @@ export default function Home({ orders }) {
   }
 
   return (
+    
+    
     <div className="bg-gray-100">
       <Head>
         <title>Amazon 2.0</title>
@@ -53,10 +55,10 @@ export default function Home({ orders }) {
       {/* ---- TO BEGIN, delete this section and GET CODING!!! ---- */}
       {/* ---- ---- */}
       {/* <Header /> */}
-      <button onClick={requestPermission}> Notification Permission</button>
+      {/* <button onClick={requestPermission}> Notification Permission</button>
 
       //if there is a test token, display it
-      {testToken && <p>Test Token is : {testToken}</p>}
+      {testToken && <p>Test Token is : {testToken}</p>} */}
 
       <Header />
       {/* <Navbar /> */}

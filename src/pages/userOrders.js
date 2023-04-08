@@ -51,6 +51,13 @@ function UserOrders() {
                     : "Order Hasn't Been Accepted Yet"}
                 </p>
 
+                <p className="text-sm text-gray-500 mb-4">
+                  Deliverer Phone/Whatsapp Number:{" "}
+                  {order.contactNumber
+                    ? order.contactNumber
+                    : "Order Hasn't Been Accepted Yet"}
+                </p>
+
                 <p className="text-sm mb-4">
                   <strong>Description: </strong>
                   {order.description}

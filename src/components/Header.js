@@ -199,11 +199,19 @@ const Header = () => {
             >
               Your Payment Profile{" "}
             </button>
+
+
+            <button
+              className="text-white font-medium text-lg py-2 px-4 rounded-md hover:bg-gray-700 focus:bg-gray-700 focus:outline-none w-full text-left"
+              onClick={() => router.push("/userProfile")}
+            >
+              Your User Profile{" "}
+            </button>
           </div>
 
           <button
             className="text-white font-medium text-lg py-2 px-4 rounded-md hover:bg-gray-700 focus:bg-gray-700 focus:outline-none w-full text-left"
-            onClick={() => signOut()}
+            onClick={() => signOut({ callbackUrl: "/" })}
           >
             Sign Out
           </button>

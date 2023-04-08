@@ -36,7 +36,6 @@ function travel() {
 
       <div className="container mx-auto max-w-2xl px-4">
         <h1 className="mt-8 mb-4 text-3xl font-bold text-gray-900">
-          List Product For Sale?{" "}
         </h1>
 
         {/* <TravelAddProduct onAddProduct={handleAddProduct} /> */}

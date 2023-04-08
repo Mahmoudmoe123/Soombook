@@ -22,6 +22,8 @@ function Checkout() {
   const { data: session, status } = useSession();
   const [showTravelForm, setShowTravelForm] = useState(false);
   const dispatch = useDispatch();
+  const [userPhoneNumber, setPhoneNumber] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
 
   useEffect(() => {
@@ -40,11 +42,55 @@ function Checkout() {
   console.log("trips", trips);
 
   const handleCheckout = async () => {
+    if (!userPhoneNumber) {
+      setShowModal(true);
+    } else {
+    
     await updateoOrderInfo();
 
     await sendCartUsersEmail();
     dispatch(clearBasket());
+  }
   };
+
+  const handlePhoneNumberSubmit = async (event) => {
+    event.preventDefault();
+
+    // Update the user's phone number in the database
+    try {
+      const response = await fetch("/api/addUserPhoneNumber", {
+        method: "PUT",
+        // headers: {
+        //   "Content-Type": "application/json",
+        // },
+        body: JSON.stringify(userPhoneNumber),
+      });
+
+      if (response.status === 200) {
+        console.log("Phone number updated successfully");
+        setShowModal(false);
+        submitTripDetails();
+      } else {
+        console.error(response.data.error);
+      }
+    } catch (error) {
+      console.error(
+        "An error occurred while updating the phone number:",
+        error
+      );
+    }
+  };
+
+  useEffect(() => {
+    async function fetchUser() {
+      const res = await fetch("/api/getUserProfileInfo");
+      const data = await res.json();
+      setPhoneNumber(data.phoneNumber);
+    }
+    fetchUser();
+  }, []);
+
+
 
   const updateoOrderInfo = async () => {
     const promises = items.map((item) => {
@@ -52,6 +98,8 @@ function Checkout() {
         id: item.id,
         tripId: selectedTrip.id,
         arrivalDate: selectedTrip.arrivalDate,
+        contactNumber: userPhoneNumber,
+
       };
       console.log("orderData", orderData);
       return fetch("/api/setOrderTrip/", {
@@ -247,6 +295,43 @@ function Checkout() {
 
         {/* END OF RIGHT SIDE BUTTON AND TOTAL */}
       </main>
+      {showModal && (
+        <div className="fixed z-10 inset-0 overflow-y-auto">
+          <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            {/* ... */}
+            <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
+              <form onSubmit={handlePhoneNumberSubmit}>
+                <div className="mb-4">
+                  <label
+                    htmlFor="phoneNumber"
+                    className="block font-medium text-gray-700 mb-2"
+                  >
+                    Please Add A 
+                    Phone Number To Your Account
+                    This Allows Users To Contact You
+                  </label>
+                  <input
+                    id="phoneNumber"
+                    type="text"
+                    className="w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    value={userPhoneNumber}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="text-center">
+                  <button
+                    type="submit"
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                  >
+                    Submit
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

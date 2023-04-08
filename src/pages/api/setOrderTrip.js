@@ -10,6 +10,7 @@ export default async function handler(req, res) {
     data: {
       arrivalDate: tripInfo.arrivalDate,
       tripId: tripInfo.tripId,
+      contactNumber: tripInfo.contactNumber,
     },
   });
 
