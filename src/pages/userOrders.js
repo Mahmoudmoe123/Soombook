@@ -52,7 +52,7 @@ function UserOrders() {
                 </p>
 
                 <p className="text-sm text-gray-500 mb-4">
-                  Deliverer Phone/Whatsapp Number:{" "}
+                  Deliverer Whatsapp Number:{" "}
                   {order.contactNumber
                     ? order.contactNumber
                     : "Order Hasn't Been Accepted Yet"}
