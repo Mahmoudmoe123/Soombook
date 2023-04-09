@@ -1,6 +1,5 @@
 import React from "react";
 import { signIn } from "next-auth/react";
-import { redirect } from "next/dist/server/api-utils";
 
 const TripAuthModal = ({ showModal, closeModal }) => {
   if (!showModal) {
@@ -29,7 +28,7 @@ const TripAuthModal = ({ showModal, closeModal }) => {
               onClick={handleGoogleSignIn}
               className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
             >
-              lets Sign in with Google
+              Sign in with Google
             </button>
             <button
               onClick={closeModal}
