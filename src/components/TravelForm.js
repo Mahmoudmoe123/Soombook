@@ -8,8 +8,6 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import TripAuthModal from "./tripAuthModal";
 
-
-
 function TravelForm() {
   const [origin, setOrigin] = useState("");
   const [destination, setDestination] = useState("");
