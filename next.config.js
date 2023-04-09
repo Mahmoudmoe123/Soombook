@@ -9,7 +9,8 @@ module.exports = {
       "https://ffyuiicnuiyyufohhsca.supabase.co/storage/v1/object/public/images",
       "ffyuiicnuiyyufohhsca.supabase.co",
       "logopond.com",
-      "https://logopond.com/logos"
+      "https://logopond.com/logos",
+      "images.unsplash.com",
     ],
   },
   experimental: {

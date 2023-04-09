@@ -18,6 +18,7 @@ function TravelForm() {
   const [userPhoneNumber, setPhoneNumber] = useState("");
   const [showModal, setShowModal] = useState(false);
 
+
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(`Submitted Origin: ${origin}`);
@@ -36,10 +37,18 @@ function TravelForm() {
     async function fetchUser() {
       const res = await fetch("/api/getUserProfileInfo");
       const data = await res.json();
-      setPhoneNumber(data.phoneNumber);
+  
+      // Check if data is not null and has phoneNumber property
+      if (data && data.hasOwnProperty("phoneNumber")) {
+        setPhoneNumber(data.phoneNumber);
+      } else {
+        // You can handle the error here or set a default value for the phoneNumber state
+        console.error("Unexpected data format or data is null:", data);
+      }
     }
     fetchUser();
   }, []);
+  
 
   const handlePhoneNumberSubmit = async (event) => {
     event.preventDefault();
