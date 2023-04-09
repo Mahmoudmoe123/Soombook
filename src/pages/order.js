@@ -325,13 +325,14 @@ const closeModal = () => {
         </div>
       </form>
 
-              <>
+               <>
         <form onSubmit={handleSubmit}>
           {/* ...form content and styles... */}
           <button type="submit" className="btn btn-primary"></button>
         </form>
         <OrderAuthModal showModal={showAuthModal} closeModal={closeModal} />
-      </>
+      </>    
+         
 
 
     </div>
