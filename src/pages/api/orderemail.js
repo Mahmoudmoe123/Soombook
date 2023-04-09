@@ -32,6 +32,8 @@ export default async function handler(req, res) {
       <p><strong>Description:</strong> ${emailinfo.description}</p>
       <div>
         <div>Price: ${emailinfo.price} SDG</div>
+        <div>Contact Your Deliver : ${emailinfo.contactNumber} SDG</div>
+
       </div>
     </div>
   </div>`,

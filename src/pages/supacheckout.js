@@ -12,7 +12,6 @@ import TravelForm from "../components/TravelForm";
 import { clearBasket } from "../slices/basketSlice";
 import { useDispatch } from "react-redux";
 
-
 function Checkout() {
   const items = useSelector(selectItems);
   const total = useSelector(selectTotal);
@@ -24,7 +23,6 @@ function Checkout() {
   const dispatch = useDispatch();
   const [userPhoneNumber, setPhoneNumber] = useState("");
   const [showModal, setShowModal] = useState(false);
-
 
   useEffect(() => {
     async function loadTrips() {
@@ -45,12 +43,11 @@ function Checkout() {
     if (!userPhoneNumber) {
       setShowModal(true);
     } else {
-    
-    await updateoOrderInfo();
+      await updateoOrderInfo();
 
-    await sendCartUsersEmail();
-    dispatch(clearBasket());
-  }
+      await sendCartUsersEmail();
+      dispatch(clearBasket());
+    }
   };
 
   const handlePhoneNumberSubmit = async (event) => {
@@ -90,8 +87,6 @@ function Checkout() {
     fetchUser();
   }, []);
 
-
-
   const updateoOrderInfo = async () => {
     const promises = items.map((item) => {
       const orderData = {
@@ -99,7 +94,6 @@ function Checkout() {
         tripId: selectedTrip.id,
         arrivalDate: selectedTrip.arrivalDate,
         contactNumber: userPhoneNumber,
-
       };
       console.log("orderData", orderData);
       return fetch("/api/setOrderTrip/", {
@@ -134,6 +128,7 @@ function Checkout() {
         destination: item.destination,
         imageUrl: item.imageUrl,
         arrivalDate: selectedTrip.arrivalDate,
+        contactNumber: new Date(userPhoneNumber).toLocaleDateString(),
       };
 
       return fetch("/api/orderemail", {
@@ -225,10 +220,12 @@ function Checkout() {
                         {trip.destinationCountry}
                       </p>
                       <p className="text-gray-600 text-sm mb-2">
-                        Departure: {new Date(trip.departureDate).toLocaleDateString()}
+                        Departure:{" "}
+                        {new Date(trip.departureDate).toLocaleDateString()}
                       </p>
                       <p className="text-gray-600 text-sm mb-2">
-                        Arrival: {new Date(trip.arrivalDate).toLocaleDateString()}
+                        Arrival:{" "}
+                        {new Date(trip.arrivalDate).toLocaleDateString()}
                       </p>
                     </div>
                   </div>
@@ -306,9 +303,8 @@ function Checkout() {
                     htmlFor="phoneNumber"
                     className="block font-medium text-gray-700 mb-2"
                   >
-                    Please Add A 
-                    Phone Number To Your Account
-                    This Allows Users To Contact You
+                    Please Add A Phone Number To Your Account This Allows Users
+                    To Contact You
                   </label>
                   <input
                     id="phoneNumber"
