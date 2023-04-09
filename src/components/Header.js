@@ -84,7 +84,7 @@ const Header = () => {
             {/* Sign In Button */}
             <div className="ml-auto flex justify-between space-x-3">
               <button
-                onClick={!session ? signIn : toggleSidebar}
+                onClick={!session ? () => signIn("google") : toggleSidebar}
                 className="text-white font-medium text-sm hover:underline focus:outline-none flex items-center"
               >
                 <p className="hidden md:inline">
@@ -199,7 +199,6 @@ const Header = () => {
             >
               Your Payment Profile{" "}
             </button>
-
 
             <button
               className="text-white font-medium text-lg py-2 px-4 rounded-md hover:bg-gray-700 focus:bg-gray-700 focus:outline-none w-full text-left"

@@ -6,6 +6,8 @@ import Header from "../components/Header";
 import { useSession } from "next-auth/react";
 import axios from "axios";
 import { useRouter } from "next/router";
+import TripAuthModal from "./tripAuthModal";
+
 
 function TravelForm() {
   const [origin, setOrigin] = useState("");
@@ -17,7 +19,7 @@ function TravelForm() {
   const router = useRouter();
   const [userPhoneNumber, setPhoneNumber] = useState("");
   const [showModal, setShowModal] = useState(false);
-
+  const [showAuthModal, setShowAuthModal] = useState(false);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -26,18 +28,26 @@ function TravelForm() {
     console.log(`Submitted Departure Date: ${formatedDepartureDate}`);
     console.log(`Submitted Arrival Date: ${formatedArrivalDate}`);
 
-    if (!userPhoneNumber) {
-      setShowModal(true);
+    if (!session) {
+      setShowAuthModal(true);
     } else {
-      addTrip();
+      if (!userPhoneNumber) {
+        setShowModal(true);
+      } else {
+        addTrip();
+      }
     }
+  };
+
+  const closeModal = () => {
+    setShowAuthModal(false);
   };
 
   useEffect(() => {
     async function fetchUser() {
       const res = await fetch("/api/getUserProfileInfo");
       const data = await res.json();
-  
+
       // Check if data is not null and has phoneNumber property
       if (data && data.hasOwnProperty("phoneNumber")) {
         setPhoneNumber(data.phoneNumber);
@@ -48,7 +58,6 @@ function TravelForm() {
     }
     fetchUser();
   }, []);
-  
 
   const handlePhoneNumberSubmit = async (event) => {
     event.preventDefault();
@@ -226,9 +235,8 @@ function TravelForm() {
                     htmlFor="phoneNumber"
                     className="block font-medium text-gray-700 mb-2"
                   >
-                    Please Add A 
-                    Phone Number To Your Account
-                    This Allows Users To Contact You
+                    Please Add A Phone Number To Your Account This Allows Users
+                    To Contact You
                   </label>
                   <input
                     id="phoneNumber"
@@ -252,6 +260,14 @@ function TravelForm() {
           </div>
         </div>
       )}
+
+      <>
+        <form onSubmit={handleSubmit}>
+          {/* ...form content and styles... */}
+          <button type="submit" className="btn btn-primary"></button>
+        </form>
+        <TripAuthModal showModal={showAuthModal} closeModal={closeModal} />
+      </>
     </div>
   );
 }
