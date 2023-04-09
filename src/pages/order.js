@@ -7,6 +7,7 @@ import supabase from "../lib/supabase";
 import { useRouter } from "next/router";
 
 import { stringify } from "postcss";
+import OrderAuthModal from "../components/OrderAuthModal";
 function ProductForm() {
   const [url, setUrl] = useState("");
   const [origin, setOrigin] = useState("");
@@ -17,6 +18,8 @@ function ProductForm() {
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
   const [pickupLocation, setPickupLocation] = useState("");
+    const [showAuthModal, setShowAuthModal] = useState(false);
+
 
   const { data: session, status } = useSession();
   const [image, setImage] = useState(null);
@@ -24,6 +27,14 @@ function ProductForm() {
   const router = useRouter();
 
   const handleSubmit = async (event) => {
+    event.preventDefault();
+
+
+if (!session) {
+      setShowAuthModal(true);
+    } 
+    else{
+
     event.preventDefault();
     console.log(`Submitted URL: ${url}`);
     console.log(`Submitted Origin: ${origin}`);
@@ -33,6 +44,13 @@ function ProductForm() {
     const uploadedImageUrl = await uploadImage();
 
     addProduct(priceAsInt, uploadedImageUrl);
+    }
+  };
+
+
+
+const closeModal = () => {
+    setShowAuthModal(false);
   };
 
   const uploadImage = async () => {
@@ -306,6 +324,16 @@ function ProductForm() {
           </button>
         </div>
       </form>
+
+              <>
+        <form onSubmit={handleSubmit}>
+          {/* ...form content and styles... */}
+          <button type="submit" className="btn btn-primary"></button>
+        </form>
+        <OrderAuthModal showModal={showAuthModal} closeModal={closeModal} />
+      </>
+
+
     </div>
   );
 }
