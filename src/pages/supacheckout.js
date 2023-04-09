@@ -128,7 +128,7 @@ function Checkout() {
         destination: item.destination,
         imageUrl: item.imageUrl,
         arrivalDate: selectedTrip.arrivalDate,
-        contactNumber: new Date(userPhoneNumber).toLocaleDateString(),
+        contactNumber: userPhoneNumber,
       };
 
       return fetch("/api/orderemail", {
