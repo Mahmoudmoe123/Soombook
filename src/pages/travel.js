@@ -8,6 +8,8 @@ import TravelForm from "../components/TravelForm";
 
 // const addTrip = data => axios.post('/api/trip',data);
 
+// import NotificationPermissionModal from "../components/getNotificationModal";
+
 
 
 
@@ -33,6 +35,7 @@ function travel() {
     <div>
       <Header />
       <TravelForm />
+      {/* <NotificationPermissionModal /> */}
 
       <div className="container mx-auto max-w-2xl px-4">
         <h1 className="mt-8 mb-4 text-3xl font-bold text-gray-900">
