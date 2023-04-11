@@ -8,9 +8,6 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import TripAuthModal from "./travelAuthModal";
 
-
-
-
 function TravelForm() {
   const [origin, setOrigin] = useState("");
   const [destination, setDestination] = useState("");
@@ -22,8 +19,9 @@ function TravelForm() {
   const [userPhoneNumber, setPhoneNumber] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const [submitting, setSubmitting] = useState(false); // Add this line
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     console.log(`Submitted Origin: ${origin}`);
     console.log(`Submitted Destination: ${destination}`);
@@ -36,7 +34,9 @@ function TravelForm() {
       if (!userPhoneNumber) {
         setShowModal(true);
       } else {
-        addTrip();
+        setSubmitting(true);
+        await addTrip();
+        setSubmitting(false);
       }
     }
   };
@@ -220,8 +220,10 @@ function TravelForm() {
           <button
             type="submit"
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            disabled={submitting} // Disable the button when submitting is true
+
           >
-            Add Trip{" "}
+            {submitting ? "Adding Trip..." : "Add Trip"}
           </button>
         </div>
       </form>
