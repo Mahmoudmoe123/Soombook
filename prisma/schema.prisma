@@ -17,6 +17,7 @@ model User {
   paymentmethods Paymentmethod[]
   trips          Trip[]
   phoneNumber   String?        @unique
+  userNotificationToken String?
 }
 
 model Trip {
