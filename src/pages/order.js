@@ -19,6 +19,8 @@ function ProductForm() {
   const [price, setPrice] = useState("");
   const [pickupLocation, setPickupLocation] = useState("");
     const [showAuthModal, setShowAuthModal] = useState(false);
+    const [submitting, setSubmitting] = useState(false); // Add this line
+
 
 
   const { data: session, status } = useSession();
@@ -34,6 +36,7 @@ if (!session) {
       setShowAuthModal(true);
     } 
     else{
+      setSubmitting(true);
 
     event.preventDefault();
     console.log(`Submitted URL: ${url}`);
@@ -43,7 +46,9 @@ if (!session) {
 
     const uploadedImageUrl = await uploadImage();
 
-    addProduct(priceAsInt, uploadedImageUrl);
+     await addProduct(priceAsInt, uploadedImageUrl);
+     
+     setSubmitting(false);
     }
   };
 
@@ -319,8 +324,10 @@ const closeModal = () => {
           <button
             type="submit"
             className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline"
+            disabled={submitting} // Disable the button when submitting is true
+
           >
-            Submit Order
+            {submitting ? "Submitting..." : "Submit Order"}
           </button>
         </div>
       </form>

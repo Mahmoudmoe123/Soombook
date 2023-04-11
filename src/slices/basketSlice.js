@@ -10,7 +10,19 @@ export const basketSlice = createSlice({
   reducers: {
     //actions
     addToBasket: (state, action) => {
-      state.items = [...state.items, action.payload];
+      // Check if the item already exists in the basket
+      const index = state.items.findIndex(
+        (basketItem) => basketItem.id === action.payload.id
+      );
+
+      if (index === -1) {
+        // The item doesn't exist, add it to the basket
+        state.items = [...state.items, action.payload];
+      } else {
+        console.warn(
+          `Can't add product (id: ${action.payload.id}) as it's already in the basket`
+        );
+      }
     },
     removeFromBasket: (state, action) => {
       const index = state.items.findIndex(

@@ -2,9 +2,10 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { StarIcon } from "@heroicons/react/24/solid";
 import numeral from "numeral";
-import { useDispatch } from "react-redux";
-import { addToBasket } from "../slices/basketSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { addToBasket, selectItems } from "../slices/basketSlice";
 import { useRouter } from "next/router";
+
 
 function Product({
   id,
@@ -20,6 +21,8 @@ function Product({
 }) {
   const dispatch = useDispatch();
   const router = useRouter();
+  const [showMessage, setShowMessage] = useState(false);
+  const basketItems = useSelector(selectItems);
 
 
   const redirectToUrl = () => {
@@ -28,23 +31,36 @@ function Product({
 
 
   const addItemToBasket = () => {
-    const product = {
-      id,
-      title,
-      price,
-      description,
-      category,
-      url,
-      origin,
-      destination,
-      userId,
-      imageUrl,
-    };
-    dispatch(addToBasket(product));
+    const productExists = basketItems.some(item => item.id === id);
+
+    if (productExists) {
+      setShowMessage(true);
+      setTimeout(() => setShowMessage(false), 3000);
+    } else {
+      const product = {
+        id,
+        title,
+        price,
+        description,
+        category,
+        url,
+        origin,
+        destination,
+        userId,
+        imageUrl,
+      };
+      dispatch(addToBasket(product));
+    }
   };
 
   return (
     <div className="relative flex flex-col m-5 bg-white z-30 p-6 rounded-lg shadow-md hover:shadow-lg transition duration-200 ease-in w-full sm:w-80">
+      
+      {showMessage && (
+        <div className="absolute top-0 right-0 mt-2 mr-2 w-full sm:w-3/4 bg-red-500 text-white text-center py-2 px-4 rounded-lg shadow-md">
+          Item is already in the basket!
+        </div>
+      )}
       <p className="absolute right-2 top-2 text-xs italic text-gray-400">
         {category}
       </p>
