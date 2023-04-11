@@ -50,16 +50,17 @@ const Header = () => {
                 </svg>
               </button>
             </div>
-            <a
-              href="/"
-              className="hidden md:block text-white font-bold text-xl"
+            <div
+              onClick={() => router.push("/")}
+              className="hidden md:block text-white font-bold text-xl cursor-pointer"
             >
               <Image
                 src="https://logopond.com/logos/cfe0510f7a2888be7ea56da181e90d4a.png"
                 width={100}
                 height={100}
               />
-            </a>
+            </div>
+
             <div className="hidden ml-4 space-x-4 md:flex">
               <button
                 className="block text-white px-3 py-2 rounded-md text-base font-medium w-full text-left hover:bg-gray-700 focus:outline-none focus:bg-gray-700"
