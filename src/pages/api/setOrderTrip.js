@@ -23,6 +23,9 @@ export default async function handler(req, res) {
       userNotificationToken: true,
     },
   });
+
+
+  console.log("current token: " + userToken.userNotificationToken);
   const message = {
     notification: {
       title: '$FooCorp up 1.43% on the day',
