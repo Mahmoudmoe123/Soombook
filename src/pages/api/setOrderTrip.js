@@ -28,8 +28,8 @@ export default async function handler(req, res) {
   console.log("current token: " + userToken.userNotificationToken);
   const message = {
     notification: {
-      title: '$FooCorp up 1.43% on the day',
-      body: '$FooCorp gained 11.80 points to close at 835.67, up 1.43% on the day.'
+      title: 'Your order has been Accepted!',
+      body: '$ Expected Arrival Date: ' + tripInfo.arrivalDate + ' $', 
     },
     token: userToken.userNotificationToken,
   };
