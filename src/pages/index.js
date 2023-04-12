@@ -19,13 +19,14 @@ export default function Home({ orders }) {
       <Header />
 
       <main className="max-w-7xl mx-auto px-6 py-6 sm:px-8">
-      <Banner />
-
         <div className="bg-white p-6 rounded-lg shadow-md">
+          <Banner />
           <h1 className="text-2xl md:text-4xl font-semibold mb-6">
-            Browse Products
+            Browse Orders
           </h1>
-          <CarouselProductFeed orders={orders} />
+          <div className="mb-10 ml-0 sm:ml-[-5] md:ml-0 lg:ml-0 xl:ml-0 2xl:ml-0">
+            <CarouselProductFeed orders={orders} />
+          </div>
         </div>
       </main>
     </div>
