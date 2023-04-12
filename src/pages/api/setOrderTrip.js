@@ -26,13 +26,15 @@ export default async function handler(req, res) {
 
 
   console.log("current token: " + userToken.userNotificationToken);
-  const message = {
-    notification: {
-      title: 'Your order has been Accepted!',
-      body: '$ Expected Arrival Date: ' + tripInfo.arrivalDate + ' $', 
-    },
-    token: userToken.userNotificationToken,
-  };
+const message = {
+  notification: {
+    title: 'Your order has been Accepted!',
+    body: 'Expected Arrival Date: ' + new Date(tripInfo.arrivalDate).toLocaleDateString(),
+    imageUrl: "https://logopond.com/logos/cfe0510f7a2888be7ea56da181e90d4a.png",
+  },
+  token: userToken.userNotificationToken,
+};
+
 
   try {
     // Send a message to the device corresponding to the provided registration token.
