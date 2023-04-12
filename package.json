@@ -35,7 +35,8 @@
     "react-multi-carousel": "^2.8.2",
     "react-redux": "8.0.5",
     "react-responsive-carousel": "^3.2.23",
-    "stripe": "^11.13.0"
+    "stripe": "^11.13.0",
+    "swiper": "^9.2.0"
   },
   "license": "MIT",
   "devDependencies": {
