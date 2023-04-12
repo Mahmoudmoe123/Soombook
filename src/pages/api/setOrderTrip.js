@@ -1,4 +1,5 @@
 import prisma from "../../lib/prisma";
+import messaging from "../../firebaseAdmin";
 
 export default async function handler(req, res) {
   const tripInfo = JSON.parse(req.body);
@@ -22,13 +23,12 @@ export default async function handler(req, res) {
       userNotificationToken: true,
     },
   });
-
   const message = {
-    data: {
-      arrivalDate: tripInfo.arrivalDate,
-      contactNumber: tripInfo.contactNumber,
+    notification: {
+      title: '$FooCorp up 1.43% on the day',
+      body: '$FooCorp gained 11.80 points to close at 835.67, up 1.43% on the day.'
     },
-    token: userToken,
+    token: userToken.userNotificationToken,
   };
 
   try {
@@ -36,7 +36,7 @@ export default async function handler(req, res) {
     const response = await messaging.send(message);
     // Response is a message ID string.
     console.log("Successfully sent message:", response);
-    res
+    return res
       .status(200)
       .json({
         success: true,
@@ -45,7 +45,7 @@ export default async function handler(req, res) {
       });
   } catch (error) {
     console.log("Error sending message:", error);
-    res
+    return res
       .status(500)
       .json({
         success: false,
