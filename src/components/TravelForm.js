@@ -7,6 +7,7 @@ import { useSession } from "next-auth/react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import TripAuthModal from "./travelAuthModal";
+import NotificationPermissionModal from "./getNotificationModal";
 
 
 function TravelForm() {
@@ -273,6 +274,7 @@ function TravelForm() {
         </form>
         <TripAuthModal showModal={showAuthModal} closeModal={closeModal} />
       </>
+      <NotificationPermissionModal />
     </div>
   );
 }
