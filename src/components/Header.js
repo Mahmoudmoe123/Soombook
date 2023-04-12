@@ -54,11 +54,14 @@ const Header = () => {
               onClick={() => router.push("/")}
               className="hidden md:block text-white font-bold text-xl cursor-pointer"
             >
-              <Image
-                src="https://logopond.com/logos/cfe0510f7a2888be7ea56da181e90d4a.png"
-                width={100}
-                height={100}
-              />
+              <div className="relative h-16 w-40">
+                <Image
+                  src="/sombook.png"
+                  fill
+                  style={{ objectFit: "contain" }}
+                  className="absolute top-0 left-0"
+                />
+              </div>
             </div>
 
             <div className="hidden ml-4 space-x-4 md:flex">
@@ -115,12 +118,15 @@ const Header = () => {
             </div>
           </div>
           <div className="md:hidden text-white font-bold text-xl absolute left-1/2 transform -translate-x-1/2 ">
-            <Image
-              src="https://logopond.com/logos/cfe0510f7a2888be7ea56da181e90d4a.png"
-              width={100}
-              height={100}
-              onClick={() => router.push("/")}
-            />
+            <div className="h-16 w-16 overflow-hidden">
+              <Image
+                src="/sombook.png"
+                width={100}
+                height={100}
+                onClick={() => router.push("/")}
+                style={{ objectFit: "contain" }}
+              />
+            </div>
           </div>
         </div>
       </div>
