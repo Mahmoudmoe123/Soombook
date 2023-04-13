@@ -3,6 +3,8 @@ import Header from "../components/Header";
 import ProductCarousel from "../components/ProductCarousel";
 import TravelAddProduct from "../components/TravelAddProduct";
 import TravelForm from "../components/TravelForm";
+import { useRouter } from "next/router";
+
 // import prisma from "../lib/prisma";
 // import axios from "axios";
 
@@ -25,16 +27,31 @@ import TravelForm from "../components/TravelForm";
 // }
 
 
+
+
 function travel() {
   // const [products, setProducts] = useState([]);
   // const handleAddProduct = (product) => {
   //   setProducts([...products, product]);
   // };
 
+  const router = useRouter();
+
+
+
+  const specialTravelFormBehaviour = (event) => {
+    // event.preventDefault();
+    // Handle form submission logic here
+  
+    router.push("/userTripsPage");
+  
+  
+  };
+
   return (
     <div>
       <Header />
-      <TravelForm />
+      <TravelForm specialSubmitBehavior={specialTravelFormBehaviour} />
       {/* <NotificationPermissionModal /> */}
 
       <div className="container mx-auto max-w-2xl px-4">

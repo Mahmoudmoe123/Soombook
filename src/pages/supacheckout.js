@@ -8,9 +8,11 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import supabase from "../lib/supabase";
-import TravelForm from "../components/TravelForm";
+import Modal from "../components/ModalForTravelForm";
 import { clearBasket } from "../slices/basketSlice";
 import { useDispatch } from "react-redux";
+import TravelFormForCheckout from "../components/TravelFormForCheckout";
+import { FaPlane } from "react-icons/fa";
 
 function Checkout() {
   const items = useSelector(selectItems);
@@ -23,7 +25,19 @@ function Checkout() {
   const dispatch = useDispatch();
   const [userPhoneNumber, setPhoneNumber] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [showTravelFormModal, setShowTravelFormModal] = useState(false);
+  const [tripAdded, setTripAdded] = useState(false);
 
+  const toggleModal = () => {
+    setShowTravelFormModal(!showTravelFormModal);
+  };
+
+  const handleTripAdded = () => {
+    setTripAdded(true);
+    toggleModal();
+  };
+
+  // loads the trips from the database
   useEffect(() => {
     async function loadTrips() {
       const user = session.user.email;
@@ -35,10 +49,29 @@ function Checkout() {
     if (session?.user?.email) {
       loadTrips();
     }
-  }, [session]);
 
+    if (tripAdded) {
+      setTripAdded(false);
+    }
+  }, [session, tripAdded]);
+
+  //prints the trips to the console. This is just for testing purposes
   console.log("trips", trips);
 
+  //Fetches the user's profile info from the database. which really just returns the user object, then we extract the phone number from the user object and set it to the userPhoneNumber useState to see
+  // if the user has a phone number in the database
+  useEffect(() => {
+    async function fetchUser() {
+      const res = await fetch("/api/getUserProfileInfo");
+      const data = await res.json();
+      setPhoneNumber(data.phoneNumber);
+    }
+    fetchUser();
+  }, []);
+
+  // handle the checkout button click event. calls the actual functions that handle the checkout.
+  // If the deliverer doesnt have a phone number a modal will pop up asking for the phone number. which will be updated using the handlePhoneNumberSubmit function
+  // If there is already a number, or the user has now entered a number the orders will be updated with the trip details, the phone number etc, the email will be sent to the users and the basket will be cleared
   const handleCheckout = async () => {
     if (!userPhoneNumber) {
       setShowModal(true);
@@ -50,6 +83,8 @@ function Checkout() {
     }
   };
 
+  // If a user trys to checkout a order that they will be delivering without having their number in the database, they will be asked to enter their phone number  using a modal.
+  //This function handles the submit event and updates the deliverer's phone number.
   const handlePhoneNumberSubmit = async (event) => {
     event.preventDefault();
 
@@ -57,9 +92,7 @@ function Checkout() {
     try {
       const response = await fetch("/api/addUserPhoneNumber", {
         method: "PUT",
-        // headers: {
-        //   "Content-Type": "application/json",
-        // },
+
         body: JSON.stringify(userPhoneNumber),
       });
 
@@ -78,14 +111,8 @@ function Checkout() {
     }
   };
 
-  useEffect(() => {
-    async function fetchUser() {
-      const res = await fetch("/api/getUserProfileInfo");
-      const data = await res.json();
-      setPhoneNumber(data.phoneNumber);
-    }
-    fetchUser();
-  }, []);
+  //calls an api route that updates the orders in the cart/basket with the trip details, the phone number of the deliver for contact
+  //purposes etc.
 
   const updateoOrderInfo = async () => {
     const promises = items.map((item) => {
@@ -115,6 +142,7 @@ function Checkout() {
     console.log("All orders updated with trip ID and arrival date");
   };
 
+  // calls an api route that sends an email to the users who have items in the cart/basket. The email contains the trip details, the items in the cart/basket etc.
   const sendCartUsersEmail = async () => {
     const promises = items.map((item, i) => {
       const emailinfo = {
@@ -152,6 +180,7 @@ function Checkout() {
     console.log("All emails sent");
   };
 
+  // Handles the click event on the trip cards. When a trip card is clicked, the trip details are set to the selectedTrip useState
   const handleTripClick = (trip) => {
     setSelectedTrip(trip);
   };
@@ -172,8 +201,8 @@ function Checkout() {
           <div className="flex flex-col p-5 space-y-10 bg-white">
             <h1 className="text-3xl border-b pb-4">
               {items.length === 0
-                ? "Your Basket Is Empty"
-                : "Your Shopping Basket"}
+                ? "PLEASE ADD PRODUCTS FIRST"
+                : "YOUR DELIVERY ITEMS"}
             </h1>
             {items.map((item, i) => (
               <SupaCheckoutProduct
@@ -195,9 +224,11 @@ function Checkout() {
 
           {/* DIV TO SHOW TRIPS AND ALLOW SELECTION BEFORE CHECKOUT */}
 
-          {trips.length === 0 && showTravelForm ? (
+          {trips.length === 0 && items.length === 0 ? (
             <div className="p-5 shadow-sm">
-              <TravelForm />
+              <h2 className="text-2xl mb-2">
+                No Trips Available Please Add A Trip:
+              </h2>
             </div>
           ) : (
             <div className="p-5 shadow-sm">
@@ -233,19 +264,39 @@ function Checkout() {
               </div>
             </div>
           )}
+
+          {/* ////////////////   TRIP MODAL         //////////////////////// */}
+          {/* Button for tripform modal */}
+          <div className="container mx-auto">
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center space-x-2"
+              onClick={toggleModal}
+            >
+              <FaPlane className="text-lg" />
+              <span>Add Trip</span>
+            </button>
+            <Modal
+              show={showTravelFormModal}
+              onClose={toggleModal}
+              onTripAdded={handleTripAdded}
+            >
+              <TravelFormForCheckout onTripAdded={handleTripAdded} />
+            </Modal>
+          </div>
         </div>
 
         {/* Right Side */}
 
         {/* RIGHT SIDE DIV TO SHOW THE TOTAL AND HANDLE THE PROCEED TO CHECKOUT LOGIC/ BUTTON */}
-        <div className="flex flex-col bg-white p-10 shadow-md">
+        <div className="flex flex-col bg-white p-10 shadow-md rounded-lg">
           {items.length > 0 && (
             <>
-              <h2 className="whitespace-nowrap">
+              {/* Shows the subtotal and total price */}
+              <h2 className="whitespace-nowrap text-lg font-semibold text-gray-700">
                 Subtotal ({items.length} items):{" "}
                 <span className="font-bold">
                   {numeral(total).format("$0,0.00")} SDG
-                </span>{" "}
+                </span>
               </h2>
 
               {canProceedToCheckout || !session ? (
@@ -255,34 +306,25 @@ function Checkout() {
                   className={`button mt-2 ${
                     !canProceedToCheckout || !session
                       ? "from-gray-300 to-gray-500 border-gray-200 text-gray-300 cursor-not-allowed"
-                      : ""
-                  }`}
+                      : "bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 text-white"
+                  } px-4 py-2 font-semibold rounded`}
                 >
                   {!session
                     ? "Sign in to checkout"
                     : canProceedToCheckout
                     ? "Proceed to checkout"
-                    : "Please select a trip"}
+                    : ""}
                 </button>
               ) : (
                 <>
                   {trips.length === 0 ? (
-                    <>
-                      <p className="text-gray-600 mt-2">
-                        You don't have any trips yet. Please add a trip to
-                        continue
-                      </p>
-                      <button
-                        onClick={() => setShowTravelForm(true)}
-                        className="button w-full"
-                      >
-                        Enter a Trip
-                      </button>
-                    </>
+                    <p className="text-gray-600 mt-2">
+                      No Trips Available. Please Add A Trip
+                    </p>
                   ) : (
-                    <button disabled className="button w-full">
+                    <h1 className="text-xl font-semibold text-gray-700">
                       Select A Trip
-                    </button>
+                    </h1>
                   )}
                 </>
               )}
