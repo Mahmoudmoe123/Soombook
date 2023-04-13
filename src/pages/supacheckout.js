@@ -323,7 +323,7 @@ function Checkout() {
                     </p>
                   ) : (
                     <h1 className="text-xl font-semibold text-gray-700">
-                      Select A Trip
+                      Select A Trip Please
                     </h1>
                   )}
                 </>
