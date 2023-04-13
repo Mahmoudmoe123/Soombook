@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 import TripAuthModal from "./travelAuthModal";
 import NotificationPermissionModal from "./getNotificationModal";
 
-function TravelForm() {
+function TravelFormForCheckout({onTripAdded}) {
   const [origin, setOrigin] = useState("");
   const [destination, setDestination] = useState("");
   const [departureDate, setDepartureDate] = useState(new Date());
@@ -84,6 +84,7 @@ function TravelForm() {
         setSubmitting(true);
         await addTrip();
         setSubmitting(false);
+        onTripAdded();
         // pass the specialSUBMITBEHAVIOR function to the travelForm
       }
     }
@@ -133,7 +134,7 @@ function TravelForm() {
       const response = await axios.post("/api/tripsapi", data);
       if (response.status === 200) {
         console.log("Trip created successfully redirecting .....");
-        router.push("/userTripsPage"); // Redirect to a success page or the same page
+        // router.push("/userTripsPage"); // Redirect to a success page or the same page
       } else {
         // Handle errors
         console.error(response.data.error);
@@ -287,4 +288,4 @@ function TravelForm() {
   );
 }
 
-export default TravelForm;
+export default TravelFormForCheckout;
