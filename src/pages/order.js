@@ -5,10 +5,11 @@ import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import supabase from "../lib/supabase";
 import { useRouter } from "next/router";
-import EnableNotificationsModal from "../components/enableNotificationModal";
 
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
 import app from "../firebase";
+import EnableNotificationsModal from "../components/RequestNotificationModal";
+
 
 import { stringify } from "postcss";
 import OrderAuthModal from "../components/OrderAuthModal";
