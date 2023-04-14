@@ -10,6 +10,16 @@ import {
   ShoppingCartIcon,
   Bars3Icon,
 } from "@heroicons/react/24/outline";
+import {
+  HiOutlineHome,
+  HiOutlineUserCircle,
+  HiOutlineShoppingBag,
+  HiOutlineDocumentText,
+  HiOutlineCreditCard,
+  HiOutlineLogout,
+} from "react-icons/hi";
+import { IoAirplaneOutline } from "react-icons/io5";
+import { GoPackage } from "react-icons/go";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -66,24 +76,20 @@ const Header = () => {
 
             <div className="hidden ml-4 space-x-4 md:flex">
               <button
-                className="block text-white px-3 py-2 rounded-md text-base font-medium w-full text-left hover:bg-gray-700 focus:outline-none focus:bg-gray-700"
+                className=" flex text-white px-3 py-2 rounded-md text-base font-medium w-full text-left hover:bg-gray-700 focus:outline-none focus:bg-gray-700"
                 onClick={() => router.push("/order")}
               >
+                <HiOutlineShoppingBag className="w-6 h-6" />
                 Order
               </button>
 
               <button
-                className="block text-white px-3 py-2 rounded-md text-base font-medium w-full text-left hover:bg-gray-700 focus:outline-none focus:bg-gray-700"
+                className=" flex text-white px-3 py-2 rounded-md text-base font-medium w-full text-left hover:bg-gray-700 focus:outline-none focus:bg-gray-700"
                 onClick={() => router.push("/travel")}
               >
+                <IoAirplaneOutline className="w-6 h-6" />
                 Travel
               </button>
-              {/* <button
-                className="block text-white px-3 py-2 rounded-md text-base font-medium w-full text-left hover:bg-gray-700 focus:outline-none focus:bg-gray-700"
-                onClick={() => router.push("/userDeliveriesPage")}
-              >
-                Your Deliveries
-              </button> */}
             </div>
             {/* Sign In Button */}
             <div className="ml-auto flex justify-between space-x-3">
@@ -137,12 +143,14 @@ const Header = () => {
             className="block text-white px-3 py-2 rounded-md text-base font-medium w-full text-left hover:bg-gray-700 focus:outline-none focus:bg-gray-700"
             onClick={() => router.push("/order")}
           >
+            <HiOutlineShoppingBag className="w-6 h-6" />
             Order
           </button>
           <button
             className="block text-white px-3 py-2 rounded-md text-base font-medium w-full text-left hover:bg-gray-700 focus:outline-none focus:bg-gray-700"
             onClick={() => router.push("/travel")}
           >
+            <IoAirplaneOutline className="w-6 h-6" />
             Travel
           </button>
 
@@ -181,45 +189,51 @@ const Header = () => {
                 </svg>
               </button>
             </div>
-            <button
-              className="text-white font-medium text-lg py-2 px-4 rounded-md hover:bg-gray-700 focus:bg-gray-700 focus:outline-none w-full text-left"
-              onClick={() => router.push("/userTripsPage")}
-            >
-              Your Trips{" "}
-            </button>
-            <button
-              className="text-white font-medium text-lg py-2 px-4 rounded-md hover:bg-gray-700 focus:bg-gray-700 focus:outline-none w-full text-left"
-              onClick={() => router.push("/userOrders")}
-            >
-              Your Orders{" "}
-            </button>
-            <button
-              className="text-white font-medium text-lg py-2 px-4 rounded-md hover:bg-gray-700 focus:bg-gray-700 focus:outline-none w-full text-left"
-              onClick={() => router.push("/userDeliveriesPage")}
-            >
-              Your Deliveries{" "}
-            </button>
-
-            <button
-              className="text-white font-medium text-lg py-2 px-4 rounded-md hover:bg-gray-700 focus:bg-gray-700 focus:outline-none w-full text-left"
-              onClick={() => router.push("/payment")}
-            >
-              Your Payment Profile{" "}
-            </button>
-
-            <button
-              className="text-white font-medium text-lg py-2 px-4 rounded-md hover:bg-gray-700 focus:bg-gray-700 focus:outline-none w-full text-left"
-              onClick={() => router.push("/userProfile")}
-            >
-              Your User Profile{" "}
-            </button>
+            <div className="space-y-2">
+              <button
+                className="flex items-center space-x-4 text-white font-medium text-lg py-2 px-4 rounded-md hover:bg-gray-700 focus:bg-gray-700 focus:outline-none w-full text-left"
+                onClick={() => router.push("/userTripsPage")}
+              >
+                <IoAirplaneOutline className="w-6 h-6" />
+                <span>Your Trips</span>
+              </button>
+              <button
+                className="flex items-center space-x-4 text-white font-medium text-lg py-2 px-4 rounded-md hover:bg-gray-700 focus:bg-gray-700 focus:outline-none w-full text-left"
+                onClick={() => router.push("/userOrders")}
+              >
+                <HiOutlineShoppingBag className="w-6 h-6" />
+                <span>Your Orders</span>
+              </button>
+              <button
+                className="flex items-center space-x-4 text-white font-medium text-lg py-2 px-4 rounded-md hover:bg-gray-700 focus:bg-gray-700 focus:outline-none w-full text-left"
+                onClick={() => router.push("/userDeliveriesPage")}
+              >
+                <GoPackage className="w-6 h-6" />
+                <span>Your Deliveries</span>
+              </button>
+              <button
+                className="flex items-center space-x-4 text-white font-medium text-lg py-2 px-4 rounded-md hover:bg-gray-700 focus:bg-gray-700 focus:outline-none w-full text-left"
+                onClick={() => router.push("/payment")}
+              >
+                <HiOutlineCreditCard className="w-6 h-6" />
+                <span>Your Payment Profile</span>
+              </button>
+              <button
+                className="flex items-center space-x-4 text-white font-medium text-lg py-2 px-4 rounded-md hover:bg-gray-700 focus:bg-gray-700 focus:outline-none w-full text-left"
+                onClick={() => router.push("/userProfile")}
+              >
+                <HiOutlineUserCircle className="w-6 h-6" />
+                <span>Your User Profile</span>
+              </button>
+            </div>
           </div>
 
           <button
-            className="text-white font-medium text-lg py-2 px-4 rounded-md hover:bg-gray-700 focus:bg-gray-700 focus:outline-none w-full text-left"
+            className="flex items-center space-x-4 text-white font-medium text-lg py-2 px-4 rounded-md hover:bg-gray-700 focus:bg-gray-700 focus:outline-none w-full text-left"
             onClick={() => signOut({ callbackUrl: "/" })}
           >
-            Sign Out
+            <HiOutlineLogout className="w-6 h-6" />
+            <span>Sign Out</span>
           </button>
         </div>
       )}
