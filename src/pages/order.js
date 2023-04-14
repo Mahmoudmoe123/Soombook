@@ -5,6 +5,10 @@ import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import supabase from "../lib/supabase";
 import { useRouter } from "next/router";
+import EnableNotificationsModal from "../components/enableNotificationModal";
+
+import { getMessaging, getToken, onMessage } from "firebase/messaging";
+import app from "../firebase";
 
 import { stringify } from "postcss";
 import OrderAuthModal from "../components/OrderAuthModal";
@@ -18,10 +22,9 @@ function ProductForm() {
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
   const [pickupLocation, setPickupLocation] = useState("");
-    const [showAuthModal, setShowAuthModal] = useState(false);
-    const [submitting, setSubmitting] = useState(false); // Add this line
-
-
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [submitting, setSubmitting] = useState(false); // Add this line
+  const [showNotificationModal, setShowNotificationModal] = useState(false);
 
   const { data: session, status } = useSession();
   const [image, setImage] = useState(null);
@@ -31,32 +34,101 @@ function ProductForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-
-if (!session) {
+    if (!session) {
       setShowAuthModal(true);
-    } 
-    else{
-      setSubmitting(true);
+    } else {
+      const userAlreadyHasToken = await checkIfuserHasNotificationToken();
+      console.log(" Token Status: "+userAlreadyHasToken)
 
-    event.preventDefault();
-    console.log(`Submitted URL: ${url}`);
-    console.log(`Submitted Origin: ${origin}`);
-    console.log(`Submitted Destination: ${destination}`);
-    const priceAsInt = parseInt(price);
+      if (!userAlreadyHasToken) {
+        setShowNotificationModal(true);
+      } else {
+        setSubmitting(true);
 
-    const uploadedImageUrl = await uploadImage();
+        console.log(`Submitted URL: ${url}`);
+        console.log(`Submitted Origin: ${origin}`);
+        console.log(`Submitted Destination: ${destination}`);
+        const priceAsInt = parseInt(price);
 
-     await addProduct(priceAsInt, uploadedImageUrl);
-     
-     setSubmitting(false);
+        const uploadedImageUrl = await uploadImage();
+
+        await addProduct(priceAsInt, uploadedImageUrl);
+
+        setSubmitting(false);
+      }
     }
   };
 
-
-
-const closeModal = () => {
+  const closeModal = () => {
     setShowAuthModal(false);
   };
+
+  const handleCloseNotificationModal = () => {
+    setShowNotificationModal(false);
+  };
+
+  const handleEnableNotifications = async () => {
+    // Request the FCM token and save it to the database
+    // Close the modal
+
+    console.log("Requesting permission...");
+    Notification.requestPermission().then(async (permission) => {
+      if (permission === "granted") {
+        console.log("Notification permission granted.");
+        const messaging = getMessaging(app);
+
+        const token = await getToken(messaging, {
+          vapidKey:
+            "BPXJQ-KqNphqwXiq6giKPnru1p6glK9uoHgYT3y2YFXQy3vR37RQblC-EjG2ONJus_Dx1ZAhYEELqccxgZINVjY",
+        });
+
+        console.log("current token: " + token);
+
+        // Save the token to your database (e.g., Supabase) associated with the user.
+        // ...
+        try {
+          const response = await fetch("/api/addNotificationToken", {
+            method: "PUT",
+
+            body: JSON.stringify(token),
+          });
+
+          if (response.status === 200) {
+            console.log("Token updated successfully");
+          } else {
+            console.error(response.data.error);
+          }
+        } catch (error) {
+          console.error("An error occurred while updating the token:", error);
+        }
+      } else {
+        console.log("Permission not granted.");
+      }
+    });
+
+    setShowNotificationModal(false);
+  };
+
+  const checkIfuserHasNotificationToken = async () => {
+    try {
+      const response = await fetch("/api/checkIfUserHasNotificationToken", {
+        method: "GET",
+      });
+  
+      if (response.status === 200) {
+        const data = await response.json();
+        console.log("Token checked successfully");
+        return data.hasNotificationToken;
+      } else {
+        console.error("An error occurred while checking the token");
+        return false;
+      }
+    } catch (error) {
+      console.error("An error occurred while checking the token:", error);
+      return false;
+    }
+  };
+  
 
   const uploadImage = async () => {
     const imageLocation = session.user.email + "/" + uuidv4();
@@ -325,23 +397,25 @@ const closeModal = () => {
             type="submit"
             className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline"
             disabled={submitting} // Disable the button when submitting is true
-
           >
             {submitting ? "Submitting..." : "Submit Order"}
           </button>
         </div>
       </form>
 
-               <>
+      <EnableNotificationsModal
+        isOpen={showNotificationModal}
+        onClose={handleCloseNotificationModal}
+        onEnable={handleEnableNotifications}
+      />
+
+      <>
         <form onSubmit={handleSubmit}>
           {/* ...form content and styles... */}
           <button type="submit" className="btn btn-primary"></button>
         </form>
         <OrderAuthModal showModal={showAuthModal} closeModal={closeModal} />
-      </>    
-         
-
-
+      </>
     </div>
   );
 }
