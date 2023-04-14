@@ -263,7 +263,7 @@ function TravelForm() {
         </form>
         <TripAuthModal showModal={showAuthModal} closeModal={closeModal} />
       </>
-      <NotificationPermissionModal />
+      {/* <NotificationPermissionModal /> */}
     </div>
   );
 }
