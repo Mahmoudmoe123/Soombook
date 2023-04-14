@@ -283,7 +283,7 @@ function TravelFormForCheckout({onTripAdded}) {
         </form>
         <TripAuthModal showModal={showAuthModal} closeModal={closeModal} />
       </>
-      <NotificationPermissionModal />
+      {/* <NotificationPermissionModal /> */}
     </div>
   );
 }
