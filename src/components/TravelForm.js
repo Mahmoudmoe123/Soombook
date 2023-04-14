@@ -8,6 +8,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import TripAuthModal from "./travelAuthModal";
 import NotificationPermissionModal from "./getNotificationModal";
+import PhoneNumberModal from "../components/phoneNumberModal";
 
 function TravelForm() {
   const [origin, setOrigin] = useState("");
@@ -21,6 +22,9 @@ function TravelForm() {
   const [showModal, setShowModal] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [submitting, setSubmitting] = useState(false); // Add this line
+
+  //for the phone Numebr Modal
+  const [isOpen, setIsOpen] = useState(false);
 
   // Closes the auth modal when the user is not logged in
   const closeModal = () => {
@@ -78,8 +82,8 @@ function TravelForm() {
     if (!session) {
       setShowAuthModal(true);
     } else {
-      if (!userPhoneNumber) {
-        setShowModal(true);
+      if (session && !userPhoneNumber) {
+        setIsOpen(true);
       } else {
         setSubmitting(true);
         await addTrip();
@@ -93,15 +97,20 @@ function TravelForm() {
   //they will be asked to enter their phone number  using a modal.
   //This function handles the submit event and updates the deliverer's phone number.
 
-  const handlePhoneNumberSubmit = async (event) => {
-    event.preventDefault();
+  const handlePhoneNumberSubmit = async (number) => {
+    // Check if the number is empty or null
+    if (!number) {
+      console.error("Invalid number: empty or null");
+      return;
+    }
 
+    setPhoneNumber(number);
     // Update the user's phone number in the database
     try {
       const response = await fetch("/api/addUserPhoneNumber", {
         method: "PUT",
 
-        body: JSON.stringify(userPhoneNumber),
+        body: JSON.stringify(number),
       });
 
       if (response.status === 200) {
@@ -238,41 +247,13 @@ function TravelForm() {
         </div>
       </form>
 
-      {showModal && (
-        <div className="fixed z-10 inset-0 overflow-y-auto">
-          <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            {/* ... */}
-            <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
-              <form onSubmit={handlePhoneNumberSubmit}>
-                <div className="mb-4">
-                  <label
-                    htmlFor="phoneNumber"
-                    className="block font-medium text-gray-700 mb-2"
-                  >
-                    Please Add A Phone Number To Your Account This Allows Users
-                    To Contact You
-                  </label>
-                  <input
-                    id="phoneNumber"
-                    type="text"
-                    className="w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    value={userPhoneNumber}
-                    onChange={(e) => setPhoneNumber(e.target.value)}
-                    required
-                  />
-                </div>
-                <div className="text-center">
-                  <button
-                    type="submit"
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                  >
-                    Submit
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
+      {/* Phone Number Modal */}
+      {session && !userPhoneNumber && (
+        <PhoneNumberModal
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          savePhoneNumber={handlePhoneNumberSubmit}
+        />
       )}
 
       <>

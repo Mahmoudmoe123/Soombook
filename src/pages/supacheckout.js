@@ -13,6 +13,7 @@ import { clearBasket } from "../slices/basketSlice";
 import { useDispatch } from "react-redux";
 import TravelFormForCheckout from "../components/TravelFormForCheckout";
 import { FaPlane } from "react-icons/fa";
+import PhoneNumberModal from "../components/phoneNumberModal";
 
 function Checkout() {
   const items = useSelector(selectItems);
@@ -27,6 +28,8 @@ function Checkout() {
   const [showModal, setShowModal] = useState(false);
   const [showTravelFormModal, setShowTravelFormModal] = useState(false);
   const [tripAdded, setTripAdded] = useState(false);
+  //for the phone Numebr Modal
+  const [isOpen, setIsOpen] = useState(false);
 
   const toggleModal = () => {
     setShowTravelFormModal(!showTravelFormModal);
@@ -73,8 +76,8 @@ function Checkout() {
   // If the deliverer doesnt have a phone number a modal will pop up asking for the phone number. which will be updated using the handlePhoneNumberSubmit function
   // If there is already a number, or the user has now entered a number the orders will be updated with the trip details, the phone number etc, the email will be sent to the users and the basket will be cleared
   const handleCheckout = async () => {
-    if (!userPhoneNumber) {
-      setShowModal(true);
+    if (session && !userPhoneNumber) {
+      setIsOpen(true);
     } else {
       await updateoOrderInfo();
 
@@ -85,15 +88,21 @@ function Checkout() {
 
   // If a user trys to checkout a order that they will be delivering without having their number in the database, they will be asked to enter their phone number  using a modal.
   //This function handles the submit event and updates the deliverer's phone number.
-  const handlePhoneNumberSubmit = async (event) => {
-    event.preventDefault();
+  const handlePhoneNumberSubmit = async (number) => {
 
     // Update the user's phone number in the database
+    if (!number) {
+      console.error('Invalid number: empty or null');
+      return;
+    }
+
+    setPhoneNumber(number);
+
     try {
       const response = await fetch("/api/addUserPhoneNumber", {
         method: "PUT",
 
-        body: JSON.stringify(userPhoneNumber),
+        body: JSON.stringify(number),
       });
 
       if (response.status === 200) {
@@ -332,12 +341,22 @@ function Checkout() {
           )}
         </div>
 
+      
+
         {/* END OF RIGHT SIDE BUTTON AND TOTAL */}
       </main>
-      {showModal && (
+
+        {/* Phone Number Modal */}
+        {session && !userPhoneNumber && (
+          <PhoneNumberModal
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+            savePhoneNumber={handlePhoneNumberSubmit}
+          />
+        )}
+      {/* {showModal && (
         <div className="fixed z-10 inset-0 overflow-y-auto">
           <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            {/* ... */}
             <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
               <form onSubmit={handlePhoneNumberSubmit}>
                 <div className="mb-4">
@@ -369,7 +388,7 @@ function Checkout() {
             </div>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 }

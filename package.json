@@ -7,7 +7,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "@headlessui/react": "^1.7.13",
+    "@headlessui/react": "^1.7.14",
     "@heroicons/react": "^2.0.17",
     "@opentelemetry/api": "^1.4.1",
     "@opentelemetry/instrumentation": "^0.36.0",

@@ -12,7 +12,7 @@ export default function Home({ orders }) {
   return (
     <div className="bg-gray-100 min-h-screen">
       <Head>
-        <title>Your App Name</title>
+        <title>Alsombook</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
