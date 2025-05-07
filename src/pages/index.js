@@ -25,13 +25,16 @@ export default function Home({ orders }) {
             Browse Orders
           </h1>
           <div className="mb-10 ml-0 sm:ml-[-5] md:ml-0 lg:ml-0 xl:ml-0 2xl:ml-0">
-            <CarouselProductFeed orders={orders} />
+            {orders.length > 0 ? (
+              <CarouselProductFeed orders={orders} />
+            ) : (
+              <p className="text-gray-500 text-center py-10">No orders available yet.</p>
+            )}
           </div>
         </div>
       </main>
     </div>
   );
-
 }
 
 export async function getServerSideProps() {
