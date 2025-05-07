@@ -35,16 +35,26 @@ export default function Home({ orders }) {
 }
 
 export async function getServerSideProps() {
-  const orders = await prisma.order.findMany();
+  try {
+    const orders = await prisma.order.findMany();
 
-  // Modify each order to remove the arrivalDate property
-  const ordersWithoutArrivalDate = orders.map(
-    ({ arrivalDate, ...rest }) => rest
-  );
+    // Modify each order to remove the arrivalDate property
+    const ordersWithoutArrivalDate = orders.map(
+      ({ arrivalDate, ...rest }) => rest
+    );
 
-  return {
-    props: {
-      orders: ordersWithoutArrivalDate,
-    },
-  };
+    return {
+      props: {
+        orders: ordersWithoutArrivalDate,
+      },
+    };
+  } catch (error) {
+    console.error('Failed to fetch orders:', error);
+    // Return empty orders array if there's an error
+    return {
+      props: {
+        orders: [],
+      },
+    };
+  }
 }
