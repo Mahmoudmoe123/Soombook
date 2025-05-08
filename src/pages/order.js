@@ -60,6 +60,12 @@ function ProductForm() {
         const priceAsInt = parseInt(price);
 
         const uploadedImageUrl = await uploadImage();
+        
+        if (!uploadedImageUrl) {
+          alert('Failed to upload image. Please try again.');
+          setSubmitting(false);
+          return;
+        }
 
         await addProduct(priceAsInt, uploadedImageUrl);
 
@@ -139,27 +145,33 @@ function ProductForm() {
   };
 
   const uploadImage = async () => {
-    const imageLocation = session.user.email + "/" + uuidv4();
-    const { data, error } = await supabase.storage
-      .from("images")
-      .upload(imageLocation, image);
-    if (error) {
-      console.error(error);
-      return;
+    try {
+      const imageLocation = session.user.email + "/" + uuidv4();
+      const { data, error } = await supabase.storage
+        .from("images")
+        .upload(imageLocation, image);
+      
+      if (error) {
+        console.error('Upload error:', error);
+        return null;
+      }
+
+      const publicImageUrl = await supabase.storage
+        .from("images")
+        .getPublicUrl(imageLocation);
+
+      if (!publicImageUrl?.data?.publicUrl) {
+        console.error('Failed to get public URL');
+        return null;
+      }
+
+      const url = publicImageUrl.data.publicUrl;
+      console.log("Image URL:", url);
+      return url;
+    } catch (error) {
+      console.error('Upload failed:', error);
+      return null;
     }
-
-    const pulicImageUrl = await supabase.storage
-      .from("images")
-      .getPublicUrl(imageLocation);
-
-    setImageUrl(JSON.stringify(pulicImageUrl));
-
-    //stringyfy the url
-
-    const stringifiedUrl = JSON.stringify(pulicImageUrl.data.publicUrl);
-    const url = stringifiedUrl.replace(/"/g, "");
-    console.log("No quote url" + url);
-    return url;
   };
 
   const addProduct = async (intPrice, imageUrl) => {
