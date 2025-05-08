@@ -92,23 +92,23 @@ function PaymentForm() {
         </button>
       </form>
 
-      <div>
-        <div>
-          <h2>Payment Methods On File:</h2>
-          <table>
-            <thead>
+      <div className="mt-8 max-w-md mx-auto">
+        <h2 className="text-2xl font-bold mb-4 text-gray-800">Payment Methods On File</h2>
+        <div className="overflow-x-auto shadow-md rounded-lg">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
               <tr>
-                <th>Card Number</th>
-                <th>Account Number</th>
-                <th>Name</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Card Number</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Account Number</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="bg-white divide-y divide-gray-200">
               {paymentMethods.map((paymentMethod) => (
-                <tr key={paymentMethod.id}>
-                  <td>{paymentMethod.cardNumber}</td>
-                  <td>{paymentMethod.accountNumber}</td>
-                  <td>{`${paymentMethod.firstName} ${paymentMethod.lastName}`}</td>
+                <tr key={paymentMethod.id} className="hover:bg-gray-50">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{paymentMethod.cardNumber}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{paymentMethod.accountNumber}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{`${paymentMethod.firstName} ${paymentMethod.lastName}`}</td>
                 </tr>
               ))}
             </tbody>
