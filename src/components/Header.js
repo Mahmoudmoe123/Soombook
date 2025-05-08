@@ -67,7 +67,9 @@ const Header = () => {
               <div className="relative h-16 w-40">
                 <Image
                   src="/sombook.png"
+                  alt="Sombook Logo"
                   fill
+                  priority
                   style={{ objectFit: "contain" }}
                   className="absolute top-0 left-0"
                 />
@@ -127,8 +129,10 @@ const Header = () => {
             <div className="h-16 w-16 overflow-hidden">
               <Image
                 src="/sombook.png"
+                alt="Sombook Logo"
                 width={100}
                 height={100}
+                priority
                 onClick={() => router.push("/")}
                 style={{ objectFit: "contain" }}
               />
