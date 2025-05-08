@@ -51,6 +51,10 @@ const Navbar = () => {
                 src="https://logopond.com/logos/cfe0510f7a2888be7ea56da181e90d4a.png"
                 width={100}
                 height={100}
+                style={{
+                  width: 'auto',
+                  height: '100%'
+                }}
               />
             </a>
 
@@ -90,7 +94,11 @@ const Navbar = () => {
               src="https://logopond.com/logos/cfe0510f7a2888be7ea56da181e90d4a.png"
               width={100}
               height={100}
-              objectFit="contain"
+              style={{
+                width: 'auto',
+                height: '100%',
+                objectFit: 'contain'
+              }}
             />
           </a>
         </div>

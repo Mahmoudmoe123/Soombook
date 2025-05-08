@@ -29,8 +29,10 @@ function UserOrders() {
                 <Image
                   src={order.imageUrl}
                   alt={order.title}
-                  layout="fill"
-                  objectFit="contain"
+                  fill
+                  style={{
+                    objectFit: 'contain'
+                  }}
                 />
               </div>
               <div className="mt-4 md:mt-6">
