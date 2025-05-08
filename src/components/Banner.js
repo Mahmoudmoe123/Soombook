@@ -12,17 +12,17 @@ function Banner() {
         showIndicators={false}
         showThumbs={false}
         interval={4000}
+        transitionTime={500}
+        swipeable={true}
       >
-        <div>
-          <img loading="lazy " src="https://links.papareact.com/gi1" alt="" />
+        <div className="h-64 md:h-80 flex items-center justify-center p-4">
+          <img loading="lazy" src="/banners/sombook1.png" alt="Banner 1" className="max-h-full max-w-full object-contain rounded-lg shadow-lg" />
         </div>
-        <div>
-          
-          <img loading="lazy " src="https://links.papareact.com/6ff" alt="" />
+        <div className="h-64 md:h-80 flex items-center justify-center p-4">
+          <img loading="lazy" src="/banners/sombook2.png" alt="Banner 2" className="max-h-full max-w-full object-contain rounded-lg shadow-lg" />
         </div>
-        <div>
-          
-          <img loading="lazy " src="https://links.papareact.com/7ma" alt="" />
+        <div className="h-64 md:h-80 flex items-center justify-center p-4">
+          <img loading="lazy" src="/banners/sombook3.png" alt="Banner 3" className="max-h-full max-w-full object-contain rounded-lg shadow-lg" />
         </div>
       </Carousel>
     </div>
