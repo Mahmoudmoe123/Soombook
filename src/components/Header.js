@@ -65,13 +65,10 @@ const Header = () => {
               className="hidden md:block text-white font-bold text-xl cursor-pointer"
             >
               <div className="relative h-16 w-40">
-                <Image
+                <img
                   src="/sombook.png"
                   alt="Sombook Logo"
-                  fill
-                  priority
-                  style={{ objectFit: "contain" }}
-                  className="absolute top-0 left-0"
+                  className="h-full w-full object-contain"
                 />
               </div>
             </div>
@@ -125,16 +122,13 @@ const Header = () => {
               </div>
             </div>
           </div>
-          <div className="md:hidden text-white font-bold text-xl absolute left-1/2 transform -translate-x-1/2 ">
+          <div className="md:hidden text-white font-bold text-xl absolute left-1/2 transform -translate-x-1/2">
             <div className="h-16 w-16 overflow-hidden">
-              <Image
+              <img
                 src="/sombook.png"
                 alt="Sombook Logo"
-                width={100}
-                height={100}
-                priority
+                className="h-full w-full object-contain cursor-pointer"
                 onClick={() => router.push("/")}
-                style={{ objectFit: "contain" }}
               />
             </div>
           </div>
