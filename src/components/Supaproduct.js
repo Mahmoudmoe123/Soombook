@@ -70,9 +70,12 @@ function Product({
           src={imageUrl}
           height={192}
           width={288}
-          layout="responsive"
-          objectFit="cover"
-          objectPosition="center"
+          style={{
+            width: '100%',
+            height: 'auto',
+            objectFit: 'cover',
+            objectPosition: 'center'
+          }}
           className="mx-auto mb-4 rounded-md"
         />
       </div>

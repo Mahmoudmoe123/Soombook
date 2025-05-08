@@ -67,8 +67,10 @@ function UserDeliveriesPage() {
                 <Image
                   src={order.imageUrl}
                   alt={order.title}
-                  layout="fill"
-                  objectFit="contain"
+                  fill
+                  style={{
+                    objectFit: 'contain'
+                  }}
                 />
               </div>
                   <h4 className="text-lg font-semibold mb-2">{order.title}</h4>
