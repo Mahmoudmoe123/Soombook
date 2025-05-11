@@ -4,15 +4,30 @@ import axios from "axios";
 import { useSession } from "next-auth/react";
 
 function PaymentForm() {
+
+  //Form state
   const [cardNumber, setCardNumber] = useState("");
   const [accountNumber, setAccountNumber] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  
+  const [expiryDate, setExpiryDate] = useState("");
+  const [cvv, setCvv] = useState("");
+  const [isDefault, setIsDefault] = useState(false);
+
+
+//UI State
+
   const [paymentMethods, setPaymentMethods] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState({ text: "", type: "" });
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [cardType, setCardType] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [deleteId, setDeleteId] = useState(null);
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+
   const { data: session } = useSession();
+  const itemsPerPage = 3;
 
   // Fetch payment methods when component mounts or session changes
   useEffect(() => {
