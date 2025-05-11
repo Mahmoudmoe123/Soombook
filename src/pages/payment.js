@@ -36,6 +36,31 @@ function PaymentForm() {
     }
   }, [session]);
 
+
+  // Function to detect card type based on first digits
+  const detectCardType = (number) => {
+    const firstDigit = number.charAt(0);
+    const firstTwoDigits = number.substring(0, 2);
+    const firstFourDigits = number.substring(0, 4);
+    
+    if (firstDigit === "4") return "Visa";
+    if (["51", "52", "53", "54", "55"].includes(firstTwoDigits)) return "MasterCard";
+    if (["34", "37"].includes(firstTwoDigits)) return "American Express";
+    if (["6011", "644", "645", "646", "647", "648", "649", "65"].some(prefix => 
+      number.startsWith(prefix))) return "Discover";
+    
+    return "";
+  };
+
+
+
+
+
+
+
+
+
+
   // Function to fetch existing payment methods
   const fetchPaymentMethods = async () => {
     try {
