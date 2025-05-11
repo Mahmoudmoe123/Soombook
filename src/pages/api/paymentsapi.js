@@ -1,6 +1,5 @@
 // File: pages/api/paymentsapi.js
 import prisma from "../../lib/prisma";
-// Note: Model name is "Paymentmethod" (lowercase 'm') in the Prisma schema
 
 export default async function handler(req, res) {
   if (req.method === "POST") {
