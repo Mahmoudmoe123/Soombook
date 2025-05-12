@@ -71,7 +71,7 @@ export default function Home({ orders }) {
           
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-xl sm:text-2xl md:text-4xl font-semibold">
-              Browse Orders ({filteredOrders.length})
+              Browse Order Requests ({filteredOrders.length})
             </h1>
           </div>
           
