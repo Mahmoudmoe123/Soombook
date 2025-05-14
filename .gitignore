@@ -35,8 +35,4 @@ yarn-error.log*
 # vercel
 .vercel
 sendgrid.env
-sendgrid.env
-sendgrid.env
-sendgrid.env
-sendgrid.env
-sendgrid.env
+
