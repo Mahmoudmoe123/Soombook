@@ -31,6 +31,7 @@ yarn-error.log*
 .env.production.local
 .env
 .env.docker
+.env.docker.backup
 # vercel
 .vercel
 sendgrid.env
