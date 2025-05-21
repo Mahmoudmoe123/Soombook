@@ -202,6 +202,35 @@ function Checkout() {
 
   console.log("selectedTrip", selectedTrip);
 
+  const EmptyCart = () => (
+    <div className="flex flex-col items-center justify-center py-12">
+      <div className="text-6xl text-gray-300 mb-4">🛒</div>
+      <h2 className="text-2xl font-semibold text-gray-700 mb-2">
+        Your cart is empty
+      </h2>
+      <p className="text-gray-500">Add some items to get started!</p>
+    </div>
+  );
+
+  const NoTrips = () => (
+    <div className="flex flex-col items-center justify-center py-12 bg-white rounded-lg shadow-sm">
+      <div className="text-6xl text-gray-300 mb-4">✈️</div>
+      <h2 className="text-2xl font-semibold text-gray-700 mb-2">
+        No Trips Available
+      </h2>
+      <p className="text-gray-500 mb-4">
+        Add a new trip to start delivering
+      </p>
+      <button
+        onClick={toggleModal}
+        className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg flex items-center space-x-2"
+      >
+        <FaPlane />
+        <span>Add Trip</span>
+      </button>
+    </div>
+  );
+
   return (
     <div className="bg-gray-100">
       <Header />
