@@ -250,27 +250,38 @@ function Checkout() {
                 {trips.map((trip) => (
                   <div
                     key={trip.id}
-                    className={`bg-white rounded-md shadow-md cursor-pointer hover:shadow-lg ${
-                      selectedTrip?.id === trip.id && "border-2 border-blue-500"
+                    className={`bg-white rounded-lg shadow-md cursor-pointer transform transition-all duration-200 hover:scale-105 ${
+                      selectedTrip?.id === trip.id ? "ring-2 ring-blue-500" : ""
                     }`}
                     onClick={() => handleTripClick(trip)}
                   >
-                    <div className="h-48 relative"></div>
-                    <div className="p-4">
-                      <h3 className="text-lg font-semibold mb-2">
-                        {trip.originCountry}
-                      </h3>
-                      <p className="text-gray-600 text-sm mb-2">
-                        {trip.destinationCountry}
-                      </p>
-                      <p className="text-gray-600 text-sm mb-2">
-                        Departure:{" "}
-                        {new Date(trip.departureDate).toLocaleDateString()}
-                      </p>
-                      <p className="text-gray-600 text-sm mb-2">
-                        Arrival:{" "}
-                        {new Date(trip.arrivalDate).toLocaleDateString()}
-                      </p>
+                    <div className="p-6">
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="flex items-center space-x-2">
+                          <FaPlane className="text-blue-500" />
+                          <h3 className="text-lg font-semibold">
+                            {trip.originCountry}
+                          </h3>
+                        </div>
+                        <span className="text-sm text-gray-500">→</span>
+                        <h3 className="text-lg font-semibold">
+                          {trip.destinationCountry}
+                        </h3>
+                      </div>
+                      <div className="space-y-2">
+                        <div className="flex justify-between text-sm text-gray-600">
+                          <span>Departure:</span>
+                          <span>
+                            {new Date(trip.departureDate).toLocaleDateString()}
+                          </span>
+                        </div>
+                        <div className="flex justify-between text-sm text-gray-600">
+                          <span>Arrival:</span>
+                          <span>
+                            {new Date(trip.arrivalDate).toLocaleDateString()}
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 ))}
