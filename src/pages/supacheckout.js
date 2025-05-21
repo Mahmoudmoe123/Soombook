@@ -30,6 +30,7 @@ function Checkout() {
   const [tripAdded, setTripAdded] = useState(false);
   //for the phone Numebr Modal
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const toggleModal = () => {
     setShowTravelFormModal(!showTravelFormModal);
@@ -76,23 +77,26 @@ function Checkout() {
   // If the deliverer doesnt have a phone number a modal will pop up asking for the phone number. which will be updated using the handlePhoneNumberSubmit function
   // If there is already a number, or the user has now entered a number the orders will be updated with the trip details, the phone number etc, the email will be sent to the users and the basket will be cleared
   const handleCheckout = async () => {
-    if (session && !userPhoneNumber) {
-      setIsOpen(true);
-    } else {
-      await updateoOrderInfo();
-
-      await sendCartUsersEmail();
-      dispatch(clearBasket());
+    setIsLoading(true);
+    try {
+      if (session && !userPhoneNumber) {
+        setIsOpen(true);
+      } else {
+        await updateoOrderInfo();
+        await sendCartUsersEmail();
+        dispatch(clearBasket());
+      }
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  // If a user trys to checkout a order that they will be delivering without having their number in the database, they will be asked to enter their phone number  using a modal.
+  // If a user trys to checkout a order that they will be delivering without having their number in the database, they will be asked to enter their phone number.
   //This function handles the submit event and updates the deliverer's phone number.
   const handlePhoneNumberSubmit = async (number) => {
-
     // Update the user's phone number in the database
     if (!number) {
-      console.error('Invalid number: empty or null');
+      console.error("Invalid number: empty or null");
       return;
     }
 
@@ -311,18 +315,41 @@ function Checkout() {
               {canProceedToCheckout || !session ? (
                 <button
                   onClick={handleCheckout}
-                  disabled={!canProceedToCheckout || !session}
-                  className={`button mt-2 ${
+                  disabled={!canProceedToCheckout || !session || isLoading}
+                  className={`button mt-2 relative ${
                     !canProceedToCheckout || !session
                       ? "from-gray-300 to-gray-500 border-gray-200 text-gray-300 cursor-not-allowed"
                       : "bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 text-white"
                   } px-4 py-2 font-semibold rounded`}
                 >
-                  {!session
-                    ? "Sign in to checkout"
-                    : canProceedToCheckout
-                    ? "Proceed to checkout"
-                    : ""}
+                  {isLoading ? (
+                    <span className="flex items-center justify-center">
+                      <svg
+                        className="animate-spin h-5 w-5 mr-3"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                          fill="none"
+                        />
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        />
+                      </svg>
+                      Processing...
+                    </span>
+                  ) : !session ? (
+                    "Sign in to checkout"
+                  ) : (
+                    "Proceed to checkout"
+                  )}
                 </button>
               ) : (
                 <>
@@ -341,19 +368,17 @@ function Checkout() {
           )}
         </div>
 
-      
-
         {/* END OF RIGHT SIDE BUTTON AND TOTAL */}
       </main>
 
-        {/* Phone Number Modal */}
-        {session && !userPhoneNumber && (
-          <PhoneNumberModal
-            isOpen={isOpen}
-            setIsOpen={setIsOpen}
-            savePhoneNumber={handlePhoneNumberSubmit}
-          />
-        )}
+      {/* Phone Number Modal */}
+      {session && !userPhoneNumber && (
+        <PhoneNumberModal
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          savePhoneNumber={handlePhoneNumberSubmit}
+        />
+      )}
       {/* {showModal && (
         <div className="fixed z-10 inset-0 overflow-y-auto">
           <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
