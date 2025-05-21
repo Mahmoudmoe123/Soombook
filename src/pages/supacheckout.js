@@ -352,6 +352,25 @@ function Checkout() {
                 </span>
               </h2>
 
+              {/* Order Summary Section */}
+              <div className="space-y-4 mb-4">
+                <h2 className="text-xl font-bold border-b pb-2">Order Summary</h2>
+                <div className="space-y-2">
+                  <div className="flex justify-between text-gray-600">
+                    <span>Items ({items.length}):</span>
+                    <span>{numeral(total).format("$0,0.00")} SDG</span>
+                  </div>
+                  <div className="flex justify-between text-gray-600">
+                    <span>Delivery Fee:</span>
+                    <span>Free</span>
+                  </div>
+                  <div className="flex justify-between font-bold text-lg pt-2 border-t">
+                    <span>Total:</span>
+                    <span>{numeral(total).format("$0,0.00")} SDG</span>
+                  </div>
+                </div>
+              </div>
+
               {canProceedToCheckout || !session ? (
                 <button
                   onClick={handleCheckout}
