@@ -91,34 +91,39 @@ const Header = () => {
               </button>
             </div>
             {/* Sign In Button */}
-            <div className="ml-auto flex justify-between space-x-3">
+            <div className="ml-auto flex justify-between items-center space-x-3">
               <button
                 onClick={!session ? () => signIn("google") : toggleSidebar}
-                className="text-white font-medium text-sm hover:underline focus:outline-none flex items-center"
+                className="flex items-center space-x-2 px-3 py-2 rounded-md hover:bg-gray-700 transition-colors duration-200"
               >
-                <p className="hidden md:inline">
-                  {session ? `Hello ${session.user.name}` : "Sign-In"}
-                </p>
-                {session && (
-                  <img
-                    src={session.user.image}
-                    alt="User profile"
-                    className="w-10 h-10 md:w-10 md:h-10 rounded-full object-cover inline ml-2"
-                  />
+                {!session ? (
+                  <>
+                    <HiOutlineUserCircle className="h-6 w-6" />
+                    <span className="hidden md:inline font-medium">Sign In</span>
+                  </>
+                ) : (
+                  <>
+                    <span className="hidden md:inline font-medium">
+                      {session.user.name?.split(" ")[0]}
+                    </span>
+                    <img
+                      src={session.user.image}
+                      alt="User profile"
+                      className="h-8 w-8 rounded-full object-cover"
+                    />
+                  </>
                 )}
               </button>
 
               <div
                 onClick={() => router.push("/supacheckout")}
-                className="relative link flex items-center"
+                className="relative link flex items-center cursor-pointer"
               >
-                <span className="absolute top-0 right-0 md:right-10 h-4 w-4 bg-yellow-400 text-center rounded-full text-black font-bold">
+                <span className="absolute -top-1 -right-1 h-4 w-4 bg-yellow-400 text-center rounded-full text-black font-bold text-xs flex items-center justify-center">
                   {items.length}
                 </span>
-                <ShoppingCartIcon className="h-10" />
-                <p className="hidden md:inline font-extrabold md:text-sm mt-2">
-                  Basket
-                </p>
+                <ShoppingCartIcon className="h-8 w-8" />
+                <p className="hidden md:inline font-medium ml-1">Basket</p>
               </div>
             </div>
           </div>
