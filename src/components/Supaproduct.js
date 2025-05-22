@@ -26,7 +26,7 @@ function Product({
 
 
   const redirectToUrl = () => {
-    router.push(url);
+    window.open(url, '_blank', 'noopener,noreferrer');
   };
 
 
