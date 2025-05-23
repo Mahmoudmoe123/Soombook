@@ -26,65 +26,90 @@ function UserOrders() {
   }, []);
 
   return (
-    <div className="bg-gradient-to-b from-gray-800 to-gray-900 text-white">
+    <div className="min-h-screen bg-gradient-to-b from-gray-800 to-gray-900 text-white">
       <Header />
-      <div className="container mx-auto p-6">
-        <h1 className="text-3xl font-bold mb-6">Your Orders</h1>
-        {error && <p className="text-red-500">{error}</p>}
+      <div className="container mx-auto px-4 py-8">
+        <h1 className="text-3xl font-bold mb-8 text-center">Your Orders</h1>
+        {error && (
+          <div className="bg-red-500 text-white p-4 rounded-lg mb-6 text-center">
+            {error}
+          </div>
+        )}
         {loading ? (
-          <p>Loading...</p>
+          <div className="flex justify-center items-center h-64">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
+          </div>
         ) : orders.length === 0 ? (
-          <p>No orders available.</p>
+          <div className="text-center py-12 bg-gray-700 rounded-lg">
+            <p className="text-xl">No orders available yet</p>
+            <p className="text-gray-400 mt-2">
+              Your ordered items will appear here
+            </p>
+          </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {orders.map((order) => (
               <div
                 key={order.id}
-                className="bg-white rounded-lg shadow-sm p-4 md:p-6 text-gray-900"
+                className="bg-white rounded-xl shadow-lg overflow-hidden transform transition-transform hover:-translate-y-1 hover:shadow-xl"
               >
-                <div className="relative h-52 md:h-60 lg:h-64">
+                <div className="relative h-56 bg-gray-100">
                   <Image
                     src={order.imageUrl}
                     alt={order.title}
                     fill
                     style={{
-                      objectFit: 'contain'
+                      objectFit: "contain",
                     }}
+                    className="p-2"
                   />
                 </div>
-                <div className="mt-4 md:mt-6">
-                  <h2 className="text-lg font-medium">{order.title}</h2>
-                  <p className="text-sm text-gray-500 mb-2">
-                    Category: {order.category}
-                  </p>
-                  <p className="text-sm text-gray-500 mb-2">
-                    Origin: {order.originCountry}
-                  </p>
-                  <p className="text-sm text-gray-500 mb-2">
-                    Destination: {order.destinationCountry}
-                  </p>
-                  <p className="text-sm text-gray-500 mb-4">
-                    Arrival Date:{" "}
-                    {order.arrivalDate
-                      ? new Date(order.arrivalDate).toLocaleDateString()
-                      : "Order Hasn't Been Accepted Yet"}
-                  </p>
+                <div className="p-6">
+                  <h2 className="text-xl font-semibold text-gray-800 mb-4">
+                    {order.title}
+                  </h2>
 
-                  <p className="text-sm text-gray-500 mb-4">
-                    Deliverer Whatsapp Number:{" "}
-                    {order.contactNumber
-                      ? order.contactNumber
-                      : "Order Hasn't Been Accepted Yet"}
-                  </p>
-
-                  <p className="text-sm mb-4">
-                    <strong>Description: </strong>
-                    {order.description}
-                  </p>
-                  <div className="flex justify-between items-center">
-                    <div className="text-sm font-medium">
-                      Price: {order.price} SDG
+                  <div className="space-y-3">
+                    <div className="flex items-center text-gray-600">
+                      <span className="font-medium w-24">Category:</span>
+                      <span>{order.category}</span>
                     </div>
+                    <div className="flex items-center text-gray-600">
+                      <span className="font-medium w-24">Origin:</span>
+                      <span>{order.originCountry}</span>
+                    </div>
+                    <div className="flex items-center text-gray-600">
+                      <span className="font-medium w-24">Destination:</span>
+                      <span>{order.destinationCountry}</span>
+                    </div>
+                    <div className="flex items-center text-gray-600">
+                      <span className="font-medium w-24">Arrival:</span>
+                      <span>
+                        {order.arrivalDate
+                          ? new Date(order.arrivalDate).toLocaleDateString()
+                          : "Pending acceptance"}
+                      </span>
+                    </div>
+                    <div className="flex items-center text-gray-600">
+                      <span className="font-medium w-24">Contact:</span>
+                      <span>{order.contactNumber || "Pending acceptance"}</span>
+                    </div>
+                  </div>
+
+                  <div className="mt-6 p-4 bg-gray-50 rounded-lg">
+                    <p className="text-sm text-gray-700">
+                      <span className="font-medium">Description: </span>
+                      {order.description}
+                    </p>
+                  </div>
+
+                  <div className="mt-6 flex justify-between items-center pt-4 border-t border-gray-100">
+                    <div className="text-lg font-bold text-blue-600">
+                      {order.price} SDG
+                    </div>
+                    <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">
+                      Active
+                    </span>
                   </div>
                 </div>
               </div>
