@@ -132,17 +132,53 @@ export default function userProfile() {
             ) : (
               <div className="space-y-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="p-6 rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 border border-gray-100">
+                  <div className="p-6 rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 border border-gray-100 hover:border-blue-200 transition-colors duration-200">
                     <p className="text-sm font-medium text-gray-500">Full Name</p>
-                    <p className="mt-2 text-xl font-semibold text-gray-900">{user.name || "Not set"}</p>
+                    {user.name ? (
+                      <p className="mt-2 text-xl font-semibold text-gray-900">{user.name}</p>
+                    ) : (
+                      <div className="mt-2 flex items-start gap-3 group cursor-pointer" onClick={handleEdit}>
+                        <svg className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        </svg>
+                        <p className="text-lg text-gray-400 group-hover:text-blue-500 transition-colors duration-200">
+                          Add your name<br/>
+                          <span className="text-sm">Click to edit profile</span>
+                        </p>
+                      </div>
+                    )}
                   </div>
                   <div className="p-6 rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 border border-gray-100">
                     <p className="text-sm font-medium text-gray-500">Email Address</p>
-                    <p className="mt-2 text-xl font-semibold text-gray-900">{user.email || "Not set"}</p>
+                    {user.email ? (
+                      <p className="mt-2 text-xl font-semibold text-gray-900 flex items-center gap-2">
+                        {user.email}
+                        <span className="text-xs px-2 py-1 bg-green-100 text-green-700 rounded-full">Verified</span>
+                      </p>
+                    ) : (
+                      <div className="mt-2 flex items-start gap-3">
+                        <svg className="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                        <p className="text-lg text-gray-400">Email verification needed</p>
+                      </div>
+                    )}
                   </div>
-                  <div className="p-6 rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 border border-gray-100">
+                  <div className="p-6 rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 border border-gray-100 hover:border-blue-200 transition-colors duration-200">
                     <p className="text-sm font-medium text-gray-500">Phone Number</p>
-                    <p className="mt-2 text-xl font-semibold text-gray-900">{user.phoneNumber || "Not set"}</p>
+                    {user.phoneNumber ? (
+                      <p className="mt-2 text-xl font-semibold text-gray-900">{user.phoneNumber}</p>
+                    ) : (
+                      <div className="mt-2 flex items-start gap-3 group cursor-pointer" onClick={handleEdit}>
+                        <svg className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                        </svg>
+                        <p className="text-lg text-gray-400 group-hover:text-blue-500 transition-colors duration-200">
+                          Add phone number<br/>
+                          <span className="text-sm">Click to edit profile</span>
+                        </p>
+                      </div>
+                    )}
                   </div>
                 </div>
                 
