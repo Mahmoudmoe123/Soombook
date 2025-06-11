@@ -7,10 +7,11 @@ function MyForm() {
   const [age, setAge] = useState("");
   const [gender, setGender] = useState(""); // Add this line
   const [bio, setBio] = useState(""); // Add this line
+  const [dob, setDob] = useState(""); // Add this line
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    alert(`Name: ${name}\nEmail: ${email}\nPhone: ${phone}\nAge: ${age}\nGender: ${gender}\nBio: ${bio}`);
+    alert(`Name: ${name}\nEmail: ${email}\nPhone: ${phone}\nAge: ${age}\nGender: ${gender}\nDate of Birth: ${dob}\nBio: ${bio}`);
   }
 
   return (
@@ -46,6 +47,14 @@ function MyForm() {
           min="0"
           max="120"
           onChange={(e) => setAge(e.target.value)}
+        />
+      </label>
+      <br />
+      <label>Date of Birth:
+        <input 
+          type="date"
+          value={dob}
+          onChange={(e) => setDob(e.target.value)}
         />
       </label>
       <br />
