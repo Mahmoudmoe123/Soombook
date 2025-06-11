@@ -6,10 +6,11 @@ function MyForm() {
   const [phone, setPhone] = useState("");
   const [age, setAge] = useState("");
   const [gender, setGender] = useState(""); // Add this line
+  const [bio, setBio] = useState(""); // Add this line
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    alert(`Name: ${name}\nEmail: ${email}\nPhone: ${phone}\nAge: ${age}\nGender: ${gender}`);
+    alert(`Name: ${name}\nEmail: ${email}\nPhone: ${phone}\nAge: ${age}\nGender: ${gender}\nBio: ${bio}`);
   }
 
   return (
@@ -56,6 +57,16 @@ function MyForm() {
           <option value="other">Other</option>
           <option value="prefer-not">Prefer not to say</option>
         </select>
+      </label>
+      <br />
+      <label>Short bio:
+        <textarea 
+          value={bio}
+          onChange={(e) => setBio(e.target.value)}
+          placeholder="Tell us about yourself"
+          rows={3}
+          cols={30}
+        />
       </label>
       <input type="submit" />
     </form>
