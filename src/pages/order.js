@@ -81,6 +81,9 @@ function ProductForm() {
     // Close the modal
 
     console.log("Requesting permission...");
+
+    if (typeof window !== "undefined" && "Notification" in window) {
+
     Notification.requestPermission().then(async (permission) => {
       if (permission === "granted") {
         console.log("Notification permission granted.");
@@ -114,6 +117,7 @@ function ProductForm() {
         console.log("Permission not granted.");
       }
     });
+  }
 
     setShowNotificationModal(false);
   };
