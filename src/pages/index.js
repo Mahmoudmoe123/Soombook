@@ -5,49 +5,14 @@ import Header from "../components/Header";
 import CarouselProductFeed from "../components/CarouselProductFeed";
 import SearchFilters from "../components/SearchFilters";
 import { useState, useMemo } from "react";
+import { EMPTY_FILTERS, filterOrders, getOriginCountries } from "../lib/orderFilters";
 
 export default function Home({ orders }) {
-  const [filters, setFilters] = useState({
-    search: '',
-    category: '',
-    origin: '',
-    priceRange: ''
-  });
+  const [filters, setFilters] = useState(EMPTY_FILTERS);
 
-  const originCountries = useMemo(() => {
-    return [...new Set(orders.map(order => order.originCountry))].sort();
-  }, [orders]);
+  const originCountries = useMemo(() => getOriginCountries(orders), [orders]);
 
-  const filteredOrders = useMemo(() => {
-    return orders.filter(order => {
-      if (filters.search) {
-        const searchTerm = filters.search.toLowerCase();
-        const titleMatch = order.title?.toLowerCase().includes(searchTerm);
-        const descMatch = order.description?.toLowerCase().includes(searchTerm);
-        if (!titleMatch && !descMatch) return false;
-      }
-
-      if (filters.category && order.category !== filters.category) {
-        return false;
-      }
-
-      if (filters.origin && order.originCountry !== filters.origin) {
-        return false;
-      }
-
-      if (filters.priceRange) {
-        const price = Number(order.price);
-        if (filters.priceRange === '501+') {
-          if (price <= 500) return false;
-        } else {
-          const [min, max] = filters.priceRange.split('-').map(Number);
-          if (price < min || price > max) return false;
-        }
-      }
-
-      return true;
-    });
-  }, [orders, filters]);
+  const filteredOrders = useMemo(() => filterOrders(orders, filters), [orders, filters]);
 
   const handleFilterChange = (filterType, value) => {
     setFilters(prev => ({
@@ -101,12 +66,7 @@ export default function Home({ orders }) {
                 );
               })}
               <button
-                onClick={() => setFilters({
-                  search: '',
-                  category: '',
-                  origin: '',
-                  priceRange: ''
-                })}
+                onClick={() => setFilters(EMPTY_FILTERS)}
                 className="text-sm text-blue-600 hover:text-blue-800"
               >
                 Clear all
@@ -122,12 +82,7 @@ export default function Home({ orders }) {
               <div className="text-center py-10">
                 <p className="text-gray-500">No orders match your search criteria.</p>
                 <button 
-                  onClick={() => setFilters({
-                    search: '',
-                    category: '',
-                    origin: '',
-                    priceRange: ''
-                  })}
+                  onClick={() => setFilters(EMPTY_FILTERS)}
                   className="mt-4 text-blue-500 hover:text-blue-600"
                 >
                   Clear all filters
