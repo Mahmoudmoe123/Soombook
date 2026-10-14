@@ -8,12 +8,11 @@ export const authOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_ID,
       clientSecret: process.env.GOOGLE_SECRET,
-      secret: "J4cKP1He0trdkH6CH5K8bvPHwpX6l0dxQsWjS/24vc4=",
     }),
 
     // ...add more providers here
   ],
-  secret: "taWkTk0httNToNueGnrhhHKlzu+TRKo4FqQ2Ptq4fVk=",
+  secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async signIn(user, account, profile) {
       const user_name = user.profile.name.toString();
