@@ -1,9 +1,10 @@
 import { getServerSession } from "next-auth/next";
 import prisma from "../../lib/prisma";
 import { authOptions } from "./auth/[...nextauth]";
+import { withRequestLogging } from "../../lib/withRequestLogging";
 
 // Returns the orders the signed-in user has requested.
-export default async function handler(req, res) {
+async function handler(req, res) {
   const session = await getServerSession(req, res, authOptions);
 
   if (!session?.user?.email) {
@@ -26,3 +27,5 @@ export default async function handler(req, res) {
 
   return res.status(200).json(orders);
 }
+
+export default withRequestLogging("/api/getUserOrders", handler);
