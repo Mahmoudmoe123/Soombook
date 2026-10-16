@@ -21,3 +21,12 @@ jobs:
 
       - name: Run tests
         run: npm test -- --ci
+
+  shellcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # ShellCheck comes preinstalled on GitHub's Ubuntu runners.
+      - name: Lint shell scripts
+        run: shellcheck --severity=warning scripts/*.sh

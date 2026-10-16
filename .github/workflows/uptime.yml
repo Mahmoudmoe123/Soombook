@@ -1,0 +1,22 @@
+name: Uptime check
+
+# Runs the smoke test against the live site every hour and on demand.
+# To turn it on, add a repository variable named SOOMBOOK_URL with the site's address
+# (Settings > Secrets and variables > Actions > Variables). Without it, the job is skipped.
+# When a run fails, GitHub emails a failure notice, which works as a simple uptime alert.
+
+on:
+  schedule:
+    - cron: "17 * * * *"
+  workflow_dispatch:
+
+jobs:
+  smoke-test:
+    if: ${{ vars.SOOMBOOK_URL != '' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Smoke test the live site
+        run: bash scripts/smoke-test.sh "${{ vars.SOOMBOOK_URL }}"
