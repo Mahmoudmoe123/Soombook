@@ -42,3 +42,8 @@ sendgrid.env
 # credentials: never commit these
 config/serviceAccountKey.json
 *serviceAccount*.json
+
+# python tests
+__pycache__/
+.pytest_cache/
+/reports/

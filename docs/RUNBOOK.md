@@ -22,7 +22,13 @@ For a fuller check, run the smoke test. It checks the health endpoint, the home 
 scripts/smoke-test.sh https://YOUR-SITE
 ```
 
-The **Uptime check** workflow in GitHub Actions runs the same script every hour once the `SOOMBOOK_URL` repository variable is set. Its run history shows when the site went down, and GitHub emails a notice when a run fails.
+For a detailed report of what is broken (health check fields, request IDs, auth and method checks), run the API contract tests:
+
+```bash
+pytest tests/api --base-url https://YOUR-SITE
+```
+
+The **Uptime check** workflow in GitHub Actions runs both every hour once the `SOOMBOOK_URL` repository variable is set, and each run's page shows a summary of the API test results. Its run history shows when the site went down, and GitHub emails a notice when a run fails.
 
 ## 2. Read the logs
 

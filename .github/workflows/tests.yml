@@ -22,6 +22,36 @@ jobs:
       - name: Run tests
         run: npm test -- --ci
 
+  python-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: tests/requirements.txt
+
+      - name: Install test dependencies
+        run: pip install -r tests/requirements.txt
+
+      # Tests for scripts/smoke-test.sh against a local stub server; no app or database needed.
+      # The API contract tests in tests/api need a running site, so the uptime workflow runs them.
+      - name: Run Python tests
+        run: pytest tests/tooling --junitxml=reports/tooling.xml
+
+      - name: Summarize results
+        if: ${{ !cancelled() }}
+        run: python scripts/junit_summary.py reports/tooling.xml >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload test report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-test-report
+          path: reports/
+
   shellcheck:
     runs-on: ubuntu-latest
     steps:
