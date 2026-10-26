@@ -1,0 +1,54 @@
+name: Uptime check
+
+# Every hour (and on demand), checks the live site two ways:
+#   1. scripts/smoke-test.sh: a quick pass/fail check with retries.
+#   2. The pytest API contract tests in tests/api: health check fields and headers,
+#      request IDs, signed-out access and method checks, with a JUnit report.
+# To turn it on, add a repository variable named SOOMBOOK_URL with the site's address
+# (Settings > Secrets and variables > Actions > Variables). Without it, the job is skipped.
+# When a run fails, GitHub emails a failure notice, which works as a simple uptime alert.
+
+on:
+  schedule:
+    - cron: "17 * * * *"
+  workflow_dispatch:
+
+jobs:
+  check-live-site:
+    if: ${{ vars.SOOMBOOK_URL != '' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      SOOMBOOK_URL: ${{ vars.SOOMBOOK_URL }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Smoke test the live site
+        run: bash scripts/smoke-test.sh "$SOOMBOOK_URL"
+
+      - uses: actions/setup-python@v5
+        if: ${{ !cancelled() }}
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: tests/requirements.txt
+
+      - name: Install test dependencies
+        if: ${{ !cancelled() }}
+        run: pip install -r tests/requirements.txt
+
+      # Runs even if the smoke test failed, so the report shows exactly what broke.
+      - name: API contract tests
+        if: ${{ !cancelled() }}
+        run: pytest tests/api --junitxml=reports/api.xml
+
+      - name: Summarize results
+        if: ${{ !cancelled() }}
+        run: python scripts/junit_summary.py reports/api.xml >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload test report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-test-report
+          path: reports/

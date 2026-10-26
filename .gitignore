@@ -39,4 +39,11 @@ sendgrid.env
 sendgrid.env
 .env.docker.backup
 
+# credentials: never commit these
+config/serviceAccountKey.json
+*serviceAccount*.json
 
+# python tests
+__pycache__/
+.pytest_cache/
+/reports/
